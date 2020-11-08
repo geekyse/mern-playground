@@ -1,0 +1,18 @@
+version: '3'
+services:
+
+  mongodb:
+    image: 'mongo'
+    container_name: 'typescript-local-app'
+    environment:
+      MONGO_INITDB_ROOT_DATABASE: localapp
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - "27117:27017"
+    restart: always
+    labels:
+      - "traefik.enable=false"
