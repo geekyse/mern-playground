@@ -1,9 +1,9 @@
-version: '3'
+version: '3.2'
+
 services:
 
   mongodb:
     image: 'mongo'
-    container_name: 'typescript-local-app'
     environment:
       MONGO_INITDB_ROOT_DATABASE: localapp
       MONGO_INITDB_ROOT_USERNAME: root
@@ -16,3 +16,10 @@ services:
     restart: always
     labels:
       - "traefik.enable=false"
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "mongodb"

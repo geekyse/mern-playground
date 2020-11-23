@@ -4,7 +4,7 @@ export class HttpError extends Error {
     errors: any[];
     status: number;
     message: string;
-    name: 'HttpError' = "HttpError";
+    name: 'HttpError';
 
     /**
      * Creates an instance of HttpError.
