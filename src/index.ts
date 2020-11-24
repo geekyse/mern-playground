@@ -1,7 +1,8 @@
 import createError from "http-errors";
-import express from "express";
+import express, { Request, Response } from "express";
 import morgan from"morgan";
-import {userRoutes} from "./modules/user/user-routes";
+import cors from"cors";
+import {routes} from "./modules/user/user-routes";
 
 const {dbConnection} = require("./server/db");
 
@@ -10,13 +11,24 @@ dbConnection();
 
 const app = express()
 
+const router = express.Router();
+
+
 // support json
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// logs http requests
 app.use(morgan('combined'));
+app.use(cors());
 
-app.use('/',userRoutes);
+app.get('/', function (req:Request, res:Response) {
+    res.send('App works fine :)')
+})
+
+app.use('/',router);
+app.use('/user',routes);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -38,3 +50,4 @@ app.listen("8080", () => {
     console.log(`App listening at http://localhost:8080`)
 })
 
+export {app}
