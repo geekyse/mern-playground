@@ -6,7 +6,7 @@ import {reqValidationResult} from "../../types/req-validation-result";
 
 
 export const createValidator: BaseValidationType = [
-    body('name')
+    body('userName')
         .optional()
         .isString()
         .trim()
@@ -28,25 +28,32 @@ export const createValidator: BaseValidationType = [
         .notEmpty()
         .isString()
         .isLength({min: 7, max: 255}),
-
     reqValidationResult
 ];
 
 export async function create(req:any, res:any) {
+    const body = req.body
 
     const userExist = await User.countDocuments({email: req.body.email});
     if (userExist > 0) {
         return res.json(400, 'Email already registered');
     }
-
     // set request data to the object
     const user = new User({
-        name: req.body.name,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: passwordHash.generate(req.body.password),
-        isActive: true
+        bio : body.bio,
+        userName:   body.userName,
+        firstName:  body.firstName,
+        lastName:   body.lastName,
+        email:      body.email,
+        password:   passwordHash.generate(body.password),
+        address:    body.address,
+        city:       body.city,
+        country:    body.country,
+        education : body.education,
+        work :      body.work,
+        about:      body.about,
+        friends :   body.friends,
+        isActive:   true
     });
 
     // Errors check while saving user

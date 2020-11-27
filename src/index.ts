@@ -2,17 +2,13 @@ import createError from "http-errors";
 import express, { Request, Response } from "express";
 import morgan from"morgan";
 import cors from"cors";
-import {routes} from "./modules/user/user-routes";
+import {allRoutes} from "./modules/routes";
 
 const {dbConnection} = require("./server/db");
-
-
 dbConnection();
 
 const app = express()
-
 const router = express.Router();
-
 
 // support json
 app.use(express.json());
@@ -27,8 +23,7 @@ app.get('/', function (req:Request, res:Response) {
 })
 
 app.use('/',router);
-app.use('/user',routes);
-
+app.use('/',allRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
