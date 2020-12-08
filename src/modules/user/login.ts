@@ -2,7 +2,7 @@ import {BaseValidationType} from "../../types/validators";
 import {body} from "express-validator";
 import {reqValidationResult} from "../../types/req-validation-result";
 import {User} from "../../models/user";
-import {comparePasswrds} from "../../helpers/string";
+import passwordHash from 'password-hash';
 
 
 export const loginValidator: BaseValidationType = [
@@ -15,19 +15,17 @@ export const loginValidator: BaseValidationType = [
         .notEmpty()
         .isString()
         .isLength({min: 7, max: 255}),
-
     reqValidationResult
 ];
 
-async function login(req:any, res:any) {
-   const {body} = req.body
-
-    const user = await User.findOne({email : req.body.email});
-
-    if (!user || !comparePasswrds(body.password, user.newUser.password)) {
-        res.status(400).json(ValidationError('password', 'Invalid email or password'));
-        return;
+ async function login(req:any, res:any) {
+     const user = await User.findOne({email : req.body.email});
+        console.log(user,"----------------------")
+     if (!user || !passwordHash.verify(req.body.password, user["password"])) {
+         res.json(201,'Invalid email or password' )
+        return   ;
     }
+    // @TODO create session
+     return res.json('HELLO' )  ;
 }
-
 export {login}

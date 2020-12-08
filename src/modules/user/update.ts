@@ -56,7 +56,7 @@ export async function update(req: any, res: any): Promise<void> {
     }
 
     // check if another user using this email
-    if (user.email != body.email) {
+    if (user['email'] != body.email) {
         const userExist = await User.findOne({email: body.email});
         if (userExist && userExist.id !== user.id) {
             res.status(400).json('email', 'This is email already registered');

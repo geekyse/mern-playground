@@ -55,7 +55,6 @@ export async function create(req:any, res:any) {
         friends :   body.friends,
         isActive:   true
     });
-
     // Errors check while saving user
     try {
         const newUser = await user.save();

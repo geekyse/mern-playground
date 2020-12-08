@@ -23,6 +23,8 @@ const userSchema = new Schema({
     friends:    {type:Array},
     sessionId:  {type:String},
     isActive:   {type:bool,},
+    failedTriesCount : {type:Number},
+    lastFailedLoginAt : {type:Date}
 }, {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}, versionKey: false});
 
 const User = mongoose.model('User', userSchema);
