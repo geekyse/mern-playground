@@ -20,7 +20,6 @@ export const loginValidator: BaseValidationType = [
 
  async function login(req:any, res:any) {
      const user = await User.findOne({email : req.body.email});
-        console.log(user,"----------------------")
      if (!user || !passwordHash.verify(req.body.password, user["password"])) {
          res.json(201,'Invalid email or password' )
         return   ;
