@@ -24,9 +24,7 @@ clear_images:
 	$(BIN_DOCKER) rmi -f `$(BIN_DOCKER) images -q`
 
 up_base:
-
 	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_UP)  up
-
 
 down:
 	$(BIN_DOCKER) stop `$(BIN_DOCKER) ps -a -q`

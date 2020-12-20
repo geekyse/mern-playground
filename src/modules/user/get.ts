@@ -1,6 +1,16 @@
 import {User} from "../../models/user";
+import {reqValidationResult} from "../../types/req-validation-result";
+import {BaseValidationType} from "../../types/validators";
+import {param} from 'express-validator';
 
-async function get(req:any, res:any) {
+
+export const getValidator: BaseValidationType = [
+    param('id')
+        .notEmpty()
+        .isString(),
+    reqValidationResult];
+
+export async function get(req:any, res:any) {
     try {
         const newUser = await User.findById(req.params.id);
         res.status(201).json({ newUser });
@@ -8,7 +18,6 @@ async function get(req:any, res:any) {
         res.status(400).json({ message: err.message });
     }
 }
-export {get}
 
 
 

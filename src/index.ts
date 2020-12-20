@@ -23,6 +23,7 @@ app.get('/', function (req:Request, res:Response) {
 })
 
 app.use('/',router);
+
 app.use('/',allRoutes);
 
 // catch 404 and forward to error handler

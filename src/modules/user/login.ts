@@ -3,6 +3,8 @@ import {body} from "express-validator";
 import {reqValidationResult} from "../../types/req-validation-result";
 import {User} from "../../models/user";
 import passwordHash from 'password-hash';
+import {ServerError, ValidationError} from "../../util/request";
+import {comparePasswrds} from "../../helpers/string";
 
 
 export const loginValidator: BaseValidationType = [
@@ -18,13 +20,26 @@ export const loginValidator: BaseValidationType = [
     reqValidationResult
 ];
 
- async function login(req:any, res:any) {
-     const user = await User.findOne({email : req.body.email});
-     if (!user || !passwordHash.verify(req.body.password, user["password"])) {
-         res.json(201,'Invalid email or password' )
-        return   ;
+export async function login(req: any, res: any): Promise<void> {
+    const {body} = req;
+
+    let user = await User.findOne({email: body.email});
+    if (!user || !comparePasswrds(body.password, user.password)) {
+        res.status(400).json(ValidationError('password', 'Invalid email or password'));
+        return;
     }
-    // @TODO create session
-     return res.json('HELLO' )  ;
+
+    try {
+        const session = await user.generateSession();
+        res.json({
+            // @ts-ignore
+            user: await User.format(user),
+            token: session.token,
+        });
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).json(ServerError(e.message));
+    }
+
 }
-export {login}
