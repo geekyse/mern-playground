@@ -2,7 +2,6 @@ import {BaseValidationType} from "../../types/validators";
 import {body} from "express-validator";
 import {reqValidationResult} from "../../types/req-validation-result";
 import {User} from "../../models/user";
-import passwordHash from 'password-hash';
 import {ServerError, ValidationError} from "../../util/request";
 import {comparePasswrds} from "../../helpers/string";
 

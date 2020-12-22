@@ -1,5 +1,5 @@
 
-function dbConnection (){
+export function dbConnection (){
     const mongoose = require('mongoose');
 
     const options = {
@@ -19,5 +19,3 @@ function dbConnection (){
         db.on('error', console.error.bind(console, 'Mongo connection error :('));
     db.once('open', () => {console.log('Mongo is successfully connected :)');});
 }
-
-export { dbConnection}

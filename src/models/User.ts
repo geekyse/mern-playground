@@ -1,14 +1,8 @@
-import mongoose, {Document,Schema} from "mongoose";
+import mongoose, {Document, Schema} from "mongoose";
 import {UserSession} from "./UserSession";
 import {generateRandomString, hashPassword} from "../helpers/string";
 
-
-// @todo check if fields are not empty
-// @todo friends logic as array inside user schema
-// @todo user photos as albums
-// @todo user posts and comments
-
-interface IUser extends Document {
+export interface IUser extends Document {
     userName: string;
     firstName: string;
     lastName: string;
@@ -22,10 +16,12 @@ interface IUser extends Document {
     password: string;
     about: string;
     friends: string;
+    media: { filename: string, }[],
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
     format: (IUser) => IUser;
+    // user for cli command
     createUser: any;
     generateSession: any;
 }
@@ -34,10 +30,11 @@ const UserSchema = new Schema({
     userName: {type: String, required: true},
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
+    media: {type: Array},
     bio: {type: String},
-    address: {type: String, required: true},
-    city: {type: String, required: true},
-    country: {type: String, required: true},
+    address: {type: String},
+    city: {type: String},
+    country: {type: String},
     education: {type: Array},
     work: {type: Array},
     email: {type: String, required: [true, 'Why no Email ?']},
@@ -45,11 +42,7 @@ const UserSchema = new Schema({
     about: {type: String},
     friends: {type: Array},
     sessionId: {type: String},
-    isActive: {
-        type: Boolean,
-        required: true,
-        default: true,
-    },
+    isActive: {type: Boolean, required: true, default: true,},
     failedTriesCount: {type: Number},
     lastFailedLoginAt: {type: Date}
 }, {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}, versionKey: false});
@@ -95,23 +88,25 @@ UserSchema.statics.format = async function (user) {
 
 UserSchema.methods.createUser = async function (user: IUser) {
     const hashedPassword = hashPassword(user.password);
-    const userRow = new User();
-    userRow.firstName = user.firstName;
-    userRow.lastName = user.lastName;
-    userRow.email = user.email;
-    userRow.password = hashedPassword;
-    userRow.isActive = true;
+    const userData = new User();
+    userData.userName = user.userName;
+    userData.firstName = user.firstName;
+    userData.lastName = user.lastName;
+    userData.email = user.email;
+    userData.password = hashedPassword;
+    userData.isActive = true;
 
     // check if email exist
 
-    const userExist = await User.findOne({email: userRow.email});
+    const userExist = await User.findOne({email: userData.email});
     if (userExist) {
         return userExist;
     }
 
+
     try {
-        await userRow.save();
-        return userRow
+        await userData.save();
+        return userData
 
     } catch (e) {
         throw new Error(e);
