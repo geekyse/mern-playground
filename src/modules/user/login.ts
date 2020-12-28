@@ -3,8 +3,7 @@ import {body} from "express-validator";
 import {reqValidationResult} from "../../types/req-validation-result";
 import {User} from "../../models/user";
 import {ServerError, ValidationError} from "../../util/request";
-import {comparePasswrds} from "../../helpers/string";
-
+import {comparePasswords} from "../../helpers/string";
 
 export const loginValidator: BaseValidationType = [
     body('email')
@@ -23,8 +22,9 @@ export async function login(req: any, res: any): Promise<void> {
     const {body} = req;
 
     let user = await User.findOne({email: body.email});
-    if (!user || !comparePasswrds(body.password, user.password)) {
-        res.status(400).json(ValidationError('password', 'Invalid email or password'));
+
+    if (!user || !comparePasswords(body.password, user.password)) {
+        res.status(400).json(ValidationError('password', 'Wrong email or password'));
         return;
     }
 

@@ -21,7 +21,6 @@ export interface IUser extends Document {
     createdAt: Date;
     updatedAt: Date;
     format: (IUser) => IUser;
-    // user for cli command
     createUser: any;
     generateSession: any;
 }
@@ -68,8 +67,7 @@ UserSchema.methods.generateSession = async function (loginChannel: string = '', 
     userSession.channelRefreshToken = channelRefreshToken;
 
     try {
-        const session = await userSession.save();
-        return session;
+        return await userSession.save();
     } catch (error) {
         console.log(error);
         return null;
@@ -77,15 +75,13 @@ UserSchema.methods.generateSession = async function (loginChannel: string = '', 
 };
 
 UserSchema.statics.format = async function (user) {
-    // @ts-ignore
     let userObject = user.toObject();
-    // @ts-ignore
     let unsafeFields = user.unsafeFields();
     unsafeFields.forEach(key => delete userObject[key]);
-
     return userObject;
 };
 
+// user for cli command to create admin
 UserSchema.methods.createUser = async function (user: IUser) {
     const hashedPassword = hashPassword(user.password);
     const userData = new User();
@@ -96,23 +92,18 @@ UserSchema.methods.createUser = async function (user: IUser) {
     userData.password = hashedPassword;
     userData.isActive = true;
 
-    // check if email exist
-
     const userExist = await User.findOne({email: userData.email});
     if (userExist) {
         return userExist;
     }
 
-
     try {
         await userData.save();
         return userData
-
     } catch (e) {
         throw new Error(e);
     }
 };
 
-const User = mongoose.model<IUser>('User', UserSchema);
+export const User = mongoose.model<IUser>('User', UserSchema);
 
-export {User}

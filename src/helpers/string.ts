@@ -13,10 +13,9 @@ export const generateRandomString = (length) => {
 };
 
 export const hashPassword = (password) => {
-    const hash = bcrypt.hashSync(password, saltRounds);
-    return hash;
+    return bcrypt.hashSync(password, saltRounds);
 };
 
-export const comparePasswrds = (password, hash) => {
+export const comparePasswords = (password, hash) => {
     return bcrypt.compareSync(password, hash);
 };
