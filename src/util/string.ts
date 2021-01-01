@@ -1,3 +1,5 @@
+import slugify from 'slugify';
+
 import bcrypt from "bcrypt";
 
 const saltRounds = 10;
@@ -12,10 +14,32 @@ export const generateRandomString = (length) => {
     return result;
 };
 
+export const generateRandomSlugString = () => {
+    return generateRandomString(5);
+};
+
+export const Slug = (string) => {
+    string = string.replace(/[^a-zA-Z ]/g, ' ');
+    string = string.substring(0, 50);
+    return slugify(string, {
+        lower: true,
+        strict: false,
+    });
+};
+
+export const Summarize = (str, length) => {
+    if (str.length < length) {
+        return str;
+    }
+    return str.substring(0, length) + '...';
+};
+
 export const hashPassword = (password) => {
     return bcrypt.hashSync(password, saltRounds);
 };
 
+
 export const comparePasswords = (password, hash) => {
     return bcrypt.compareSync(password, hash);
 };
+

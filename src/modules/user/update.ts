@@ -25,19 +25,19 @@ export const updateValidator: BaseValidationType = [
     body('password')
         .notEmpty()
         .isString()
-        .isLength({min: 7, max: 255}),
+        .isLength({min: 8, max: 255}),
     body('bio')
         .isString()
-        .isLength({ max: 255}),
+        .isLength({max: 255}),
     body('address')
         .isString()
-        .isLength({ max: 255}),
+        .isLength({max: 255}),
     body('city')
         .isString()
-        .isLength({ max: 50}),
+        .isLength({max: 50}),
     body('education')
         .isString()
-        .isLength({ max: 500}),
+        .isLength({max: 500}),
     body('work')
         .isString()
         .isLength({max: 255}),

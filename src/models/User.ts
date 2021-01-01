@@ -1,8 +1,8 @@
 import mongoose, {Document, Schema} from "mongoose";
 import {UserSession} from "./UserSession";
-import {generateRandomString, hashPassword} from "../helpers/string";
+import {generateRandomString, hashPassword} from "../util/string";
 
-export interface IUser extends Document {
+interface IUser extends Document {
     userName: string;
     firstName: string;
     lastName: string;
@@ -56,18 +56,15 @@ UserSchema.methods.unsafeFields = function () {
     ];
 };
 
-UserSchema.methods.generateSession = async function (loginChannel: string = '', channelAccessToken: string = '', channelRefreshToken: string = '') {
+UserSchema.methods.generateSession = async function () {
 // create session
-    const userSession = new UserSession();
-    userSession.email = this.email;
-    userSession.token = generateRandomString(20);
-    userSession.userId = this.id;
-    userSession.loginChannel = loginChannel;
-    userSession.channelAccessToken = channelAccessToken;
-    userSession.channelRefreshToken = channelRefreshToken;
+    const Session = new UserSession();
+    Session.email = this.email;
+    Session.token = generateRandomString(20);
+    Session.userId = this.id;
 
     try {
-        return await userSession.save();
+        return await Session.save();
     } catch (error) {
         console.log(error);
         return null;
@@ -105,5 +102,11 @@ UserSchema.methods.createUser = async function (user: IUser) {
     }
 };
 
-export const User = mongoose.model<IUser>('User', UserSchema);
+UserSchema.statics.getActiveUser = async function (id: number) {
+    let activeUser = await User.findOne({id, isActive: true});
+    return activeUser;
+};
 
+const User = mongoose.model<IUser>('user', UserSchema);
+
+export {User, IUser, UserSchema}

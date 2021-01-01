@@ -9,7 +9,7 @@ export function dbConnection (){
         authSource:"admin"
     };
 
-    mongoose.connect('mongodb://root:mongo@localhost:27117/shop?authSource=admin', options,function(error) {
+    mongoose.connect('mongodb://root:mongo@localhost:27117/e-commerce?authSource=admin', options,function(error) {
 
         return "error while connecting"
     });

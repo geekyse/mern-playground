@@ -2,8 +2,8 @@ import {User} from "../../models/user";
 import {body} from "express-validator";
 import {BaseValidationType} from "../../types/validators";
 import {reqValidationResult} from "../../types/req-validation-result";
-import {hashPassword} from "../../helpers/string";
 import {ServerError, ValidationError} from "../../util/request";
+import {hashPassword} from "../../util/string";
 
 export const createValidator: BaseValidationType = [
     body("userName").notEmpty().isString().trim().escape(),
@@ -22,38 +22,6 @@ export const createValidator: BaseValidationType = [
 
 ];
 
-// export async function create(req: any, res: any) {
-//   const body = req.body;
-//
-//   const userExist = await User.countDocuments({ email: req.body.email });
-//   if (userExist > 0) {
-//     return res.json(400, "Email already registered");
-//   }
-//   // set request data to the object
-//   const user = new User({
-//     bio: body.bio,
-//     userName: body.userName,
-//     firstName: body.firstName,
-//     lastName: body.lastName,
-//     email: body.email,
-//     password: passwordHash.generate(body.password),
-//     address: body.address,
-//     city: body.city,
-//     country: body.country,
-//     education: body.education,
-//     work: body.work,
-//     about: body.about,
-//     friends: body.friends,
-//     isActive: true,
-//   });
-//   // Errors check while saving user
-//   try {
-//     const newUser = await user.save();
-//     res.json(201, { newUser });
-//   } catch (err) {
-//     res.json(400, { message: err.message });
-//   }
-// }
 
 export async function create(req: any, res: any): Promise<void> {
     const {body} = req;
@@ -76,6 +44,12 @@ export async function create(req: any, res: any): Promise<void> {
     const userExist = await User.count({email: userRow.email});
     if (userExist > 0) {
         res.status(400).json(ValidationError('email', 'This is email already registered'));
+        return;
+    }
+
+    const userNameExist = await User.count({userName: userRow.userName});
+    if (userNameExist > 0) {
+        res.status(400).json(ValidationError('userName', 'This is user name already exist'));
         return;
     }
 
