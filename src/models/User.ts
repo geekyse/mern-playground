@@ -44,7 +44,7 @@ const UserSchema = new Schema({
     isActive: {type: Boolean, required: true, default: true,},
     failedTriesCount: {type: Number},
     lastFailedLoginAt: {type: Date}
-}, {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}, versionKey: false});
+}, {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}, versionKey: false,});
 
 UserSchema.methods.unsafeFields = function () {
     return [

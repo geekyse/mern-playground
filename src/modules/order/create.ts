@@ -17,44 +17,7 @@ export const createValidator: BaseValidationType = [
     reqValidationResult,
 ];
 
-
-
 export async function create(req: any, res: any): Promise<void> {
-
-    let o = {
-        foo:"bar",
-        arr:[1,2,3],
-        subo: {
-            foo2:"bar2",
-            phone:{
-                "model":"iphone"
-            }
-        }
-    };
-
-//called with every property and its value
-    function process(key,value) {
-        console.log(key + " : "+value);
-    }
-
-    function traverse(o,func) {
-        for (let i in o) {
-            console.log(i,"----one---")
-
-            func.apply(this,[i,o[i]]);
-            if (o[i] !== null && typeof(o[i])=="object") {
-                //going one step down in the object tree!!
-                traverse(o[i],func);
-            }
-        }
-    }
-
-
-
-    console.log(traverse(o,process),"-------------");
-
-
-
     const {body} = req;
     const productData = new Product();
 
