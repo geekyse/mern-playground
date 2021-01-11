@@ -6,7 +6,14 @@ const createAdmin = async () => {
   user.firstName = 'Abdullah';
   user.lastName = 'Moawad';
   user.password = 'root';
-  user.email = 'effinbzz@gmail.com';
+
+
+
+
+
+
+
+  user.email = 'effi   nbzz@gmail.com';
   // @ts-ignore
   const userRow = await (new User).createUser(user);
   if (userRow) {
