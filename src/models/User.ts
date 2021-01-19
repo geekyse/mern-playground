@@ -20,7 +20,7 @@ interface IUser extends Document {
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
-    format: (IUser) => IUser;
+    format: (User: IUser) => IUser;
     createUser: any;
     generateSession: any;
 }
@@ -71,10 +71,10 @@ UserSchema.methods.generateSession = async function () {
     }
 };
 
-UserSchema.statics.format = async function (user) {
+UserSchema.statics.format = async function (user: any) {
     let userObject = user.toObject();
     let unsafeFields = user.unsafeFields();
-    unsafeFields.forEach(key => delete userObject[key]);
+    unsafeFields.forEach((key: string | number) => delete userObject[key]);
     return userObject;
 };
 
@@ -103,8 +103,7 @@ UserSchema.methods.createUser = async function (user: IUser) {
 };
 
 UserSchema.statics.getActiveUser = async function (id: number) {
-    let activeUser = await User.findOne({id, isActive: true});
-    return activeUser;
+    return await User.findOne({id, isActive: true});
 };
 
 const User = mongoose.model<IUser>('user', UserSchema);

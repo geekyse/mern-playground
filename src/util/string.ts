@@ -1,10 +1,12 @@
 import slugify from 'slugify';
 
 import bcrypt from "bcrypt";
+import {UserSchema} from "../models/User";
+import {Schema} from "mongoose";
 
 const saltRounds = 10;
 
-export const generateRandomString = (length) => {
+export const generateRandomString = (length: number) => {
     let result = '';
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
@@ -14,32 +16,39 @@ export const generateRandomString = (length) => {
     return result;
 };
 
+export const format = (user: any) => {
+    let userObject = user.toObject();
+    let unsafeFields = user.unsafeFields();
+    unsafeFields.forEach((key: string | number) => delete userObject[key]);
+    return userObject;
+};
+
 export const generateRandomSlugString = () => {
     return generateRandomString(5);
 };
 
-export const Slug = (string) => {
-    string = string.replace(/[^a-zA-Z ]/g, ' ');
-    string = string.substring(0, 50);
-    return slugify(string, {
+export const Slug = (str: string) => {
+    str = str.replace(/[^a-zA-Z ]/g, ' ');
+    str = str.substring(0, 50);
+    return slugify(str, {
         lower: true,
         strict: false,
     });
 };
 
-export const Summarize = (str, length) => {
+export const Summarize = (str: string, length: number) => {
     if (str.length < length) {
         return str;
     }
     return str.substring(0, length) + '...';
 };
 
-export const hashPassword = (password) => {
+export const hashPassword = (password: string) => {
     return bcrypt.hashSync(password, saltRounds);
 };
 
 
-export const comparePasswords = (password, hash) => {
+export const comparePasswords = (password: string, hash: string) => {
     return bcrypt.compareSync(password, hash);
 };
 

@@ -19,9 +19,7 @@ export const createValidator: BaseValidationType = [
     body("email").notEmpty().isEmail().normalizeEmail(),
     body("password"),
     reqValidationResult,
-
 ];
-
 
 export async function create(req: any, res: any): Promise<void> {
     const {body} = req;
