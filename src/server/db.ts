@@ -11,7 +11,7 @@ export function dbConnection (){
 
     mongoose.connect('mongodb://root:mongo@localhost:27117/e-commerce?authSource=admin', options,function(error) {
 
-        return "error while connecting"
+        return "error while conne cting"
     });
 
     const db = mongoose.connection;
