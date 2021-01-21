@@ -28,7 +28,7 @@ async function command() {
     .option('-s, --small', 'small pizza size');
 
   if (program.debug) console.log(program.opts());
-  console.log("---------------------1----------------")
+
   await program.command('create-admin')
     .description('create first admin user')
     .action(createAdmin);

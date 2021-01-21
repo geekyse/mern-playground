@@ -4,6 +4,7 @@ import {BaseValidationType} from "../../types/validators";
 import {reqValidationResult} from "../../types/req-validation-result";
 import {ServerError, ValidationError} from "../../util/request";
 import {hashPassword} from "../../util/string";
+import {Publish} from "../../util/rabbit";
 
 export const createValidator: BaseValidationType = [
     body("userName").notEmpty().isString().trim().escape(),
@@ -57,4 +58,5 @@ export async function create(req: any, res: any): Promise<void> {
     } catch (e) {
         res.status(500).json(ServerError(e.message));
     }
+    await Publish(userRow, 'createUser')
 }

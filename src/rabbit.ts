@@ -24,7 +24,7 @@ export const consumer = async () => {
     try {
 
         console.log(process.env.RABBITMQ_CONNECTION);
-        amqp.connect(process.env.RABBITMQ_CONNECTION, function(err, conn) {
+        amqp.connect('RABBITMQ_CONNECTION=amqp://user:pass@localhost/', function(err, conn) {
             if (err != null) bail(err);
             connection = conn;
             conn.createChannel(on_open);
