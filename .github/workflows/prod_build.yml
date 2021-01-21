@@ -2,21 +2,14 @@ name: CI
 
 on:
   push:
-
-jobs:
-  build:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 12.13.1
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.13.1'
-      - name: npm install
-        run: npm install
-      - name: npm lint
-        run: npm lint
-      - name: npm build
-        run: npm run build
-      - name: npm test
-        run: npm test
+    jobs:
+      build:
+        runs-on: ubuntu-18.04
+        steps:
+          - uses: actions/checkout@v2
+          - name: Use Node.js 14.15.4
+            uses: actions/setup-node@v1
+            with:
+              node-version: '14.15.4'
+          - name: npm install
+            run: npm install
