@@ -4,6 +4,7 @@ services:
 
   mongodb:
     image: 'mongo'
+    container_name: 'app-mongo'
     environment:
       MONGO_INITDB_ROOT_DATABASE: localapp
       MONGO_INITDB_ROOT_USERNAME: root
@@ -17,9 +18,31 @@ services:
     labels:
       - "traefik.enable=false"
 
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    depends_on:
-      - "mongodb"
+#  mysql:
+#    image: mysql:5.7
+#    container_name: 'app-mysql'
+#    volumes:
+#      - db_data:/var/lib/mysql
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: rootpassword
+#      MYSQL_DATABASE: app
+#      MYSQL_USER: user
+#      MYSQL_PASSWORD: password
+#    ports:
+#      - 3316:3306
+#
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    environment:
+#      ENV_NAME: dev
+#    ports:
+#      - 7001:7001
+#    depends_on:
+#      - "mongodb"
+#      - "mysql"
+
+volumes:
+  db_data: { }

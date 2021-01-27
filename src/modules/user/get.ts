@@ -1,4 +1,4 @@
-import {User} from "../../models/user";
+import {User} from "../../models/User";
 import {reqValidationResult} from "../../types/req-validation-result";
 import {BaseValidationType} from "../../types/validators";
 import {param} from 'express-validator';

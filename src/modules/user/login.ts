@@ -1,7 +1,7 @@
 import {BaseValidationType} from "../../types/validators";
 import {body} from "express-validator";
 import {reqValidationResult} from "../../types/req-validation-result";
-import {User} from "../../models/user";
+import {User} from "../../models/User";
 import {ServerError, ValidationError} from "../../util/request";
 import {comparePasswords, format} from "../../util/string";
 
@@ -39,8 +39,3 @@ export async function login(req: any, res: any): Promise<void> {
     }
 
 }
-
-
-//     /task : ahmed mohamed /task
-
-//sdasjdaosjofias oif;isadhf;ihsd;oifj;oiasdjf;asdf  

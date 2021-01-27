@@ -1,7 +1,7 @@
 import {echo} from './debug';
 import {HttpError} from "../errors";
 import {UserSession} from "../models/UserSession";
-import {User} from "../models/user";
+import {User} from "../models/User";
 
 
 export const generateFilterCondition = async (filter) => {

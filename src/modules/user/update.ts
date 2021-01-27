@@ -1,7 +1,7 @@
 import {body} from 'express-validator';
 import {reqValidationResult} from "../../types/req-validation-result";
 import {BaseValidationType} from "../../types/validators";
-import {User} from "../../models/user";
+import {User} from "../../models/User";
 
 export const updateValidator: BaseValidationType = [
     body('userName')

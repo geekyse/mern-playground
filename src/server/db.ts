@@ -1,21 +1,20 @@
+import dotenv from 'dotenv';
+import mongoose from 'mongoose'
 
-export function dbConnection (){
-    const mongoose = require('mongoose');
+export const dbConnection = async () => {
+    dotenv.config();
+    const dbConnection = process.env.DB_MONGODB_CONNECTION;
 
     const options = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        connectTimeoutMS: 50,
-        authSource:"admin"
+        connectTimeoutMS: 100,
+        authSource: "admin"
     };
 
-    mongoose.connect('mongodb://root:mongo@localhost:27117/e-commerce?authSource=admin', options,function(error) {
-
-        return "error while conne cting"
-    });
+    await mongoose.connect(dbConnection, options, (error) => "Error while connecting to MongoDB");
 
     const db = mongoose.connection;
-
-        db.on('error', console.error.bind(console, 'Mongo connection error :('));
-    db.once('open', () => {console.log('Mongo is successfully connected :)');});
+    db.on('error', console.error.bind(console, 'Mongo connection error :('));
+    db.once('open', () =>'Mongo is successfully connected :)');
 }

@@ -1,10 +1,10 @@
-import {User} from "../../models/user";
-import {body} from "express-validator";
+import {User} from "../../models/User";
 import {BaseValidationType} from "../../types/validators";
 import {reqValidationResult} from "../../types/req-validation-result";
 import {ServerError, ValidationError} from "../../util/request";
 import {hashPassword} from "../../util/string";
 import {Publish} from "../../util/rabbit";
+import {body} from "express-validator";
 
 export const createValidator: BaseValidationType = [
     body("userName").notEmpty().isString().trim().escape(),
