@@ -48,7 +48,7 @@ export async function create(req: any, res: any): Promise<void> {
 
     const userNameExist = await User.count({userName: userRow.userName});
     if (userNameExist > 0) {
-        res.status(400).json(ValidationError('userName', 'This is user name already exist'));
+        res.status(400).json(ValidationError('userName', 'This is user name already exist',400));
         return;
     }
 
@@ -56,7 +56,6 @@ export async function create(req: any, res: any): Promise<void> {
         await userRow.save();
         res.json(userRow);
     } catch (e) {
-        res.status(500).json(ServerError(e.message));
+        res.status(500).json(ServerError(e.message,500));
     }
-    await Publish(userRow, 'createUser')
 }

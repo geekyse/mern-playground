@@ -1,6 +1,6 @@
 import {NextFunction, Request} from 'express';
 import {StatusCodes} from 'http-status-codes';
-import {HttpError} from '../errors';
+import {HttpError} from './index';
 
 
 export function sendHttpErrorModule(req: Request, res: any, next: NextFunction): void {

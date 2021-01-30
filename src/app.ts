@@ -1,18 +1,17 @@
 import createError from "http-errors";
-import express, {Application, NextFunction, Request, Response} from "express";
+import express, {Application, NextFunction} from "express";
 import morgan from "morgan";
 import cors from "cors";
 import {allRoutes} from "./modules/routes";
-import {dbConnection} from "./server/db";
 import cookieParser from "cookie-parser";
-import dotenv from 'dotenv';
 import {HttpError} from "./errors";
 import {StatusCodes} from "http-status-codes";
+import mongoose from "mongoose";
+import slug from 'mongoose-slug-updater';
 
 async function app() {
     // initialize configuration
-    dotenv.config();
-    await dbConnection;
+    await dbConnection();
     const app = await createApp();
     initErrorHandler(app);
 }
@@ -29,26 +28,57 @@ const initErrorHandler = (app: Application) => {
     });
 };
 
+export const dbConnection = async () => {
+
+    mongoose.plugin(slug);
+    mongoose.set('debug', false);
+
+    await mongoose.connect("mongodb://root:mongo@localhost:27117/e-commerce?authSource=admin", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+        connectTimeoutMS: 100,
+    });
+
+    mongoose.set('toJSON', {
+        virtuals: true,
+        transform: (doc, converted) => {
+            converted.id = converted._id;
+            // delete converted._id;
+        },
+    });
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:8080 :('));
+    db.once('open', () => {
+        console.log('we\'re connected!');
+    });
+
+};
+
 const createApp = async () => {
     const app = express()
     app.use(cookieParser());
 
-// support json
+    // support json middleware
     app.use(express.json());
+
+    // parse body data
     app.use(express.urlencoded({extended: false}));
 
-// logs http requests
+    // logs http requests
     app.use(morgan('combined'));
     app.use(cors());
-
     app.use('/', allRoutes);
-    app.get('/', (req: Request, res: Response) => res.send('App works fine'))
+    app.get('/', (req, res) => res.send('App works fine'))
 
-// catch 404 and forward to error handler
-    app.use((req: Request, res: Response, next: NextFunction) => next(createError(404)));
+    // catch 404 and forward to error handler (Middleware)
+    app.use((req, res, next) => {
+        console.log("invalid url : ... :(")
+        next(createError(404))});
 
-// error handler
-    app.use((err, req: Request, res: Response, next: NextFunction) => {
+    // error handler
+    app.use((err, req, res, next: NextFunction) => {
         // set locals, only providing error in development
         res.locals.message = err.message;
         res.locals.error = req.app.get('env') === 'development' ? err : {};

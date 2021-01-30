@@ -15,8 +15,6 @@ services:
     ports:
       - "27117:27017"
     restart: always
-    labels:
-      - "traefik.enable=false"
 
 #  mysql:
 #    image: mysql:5.7
