@@ -1,0 +1,14 @@
+{
+  "restartable": "rs",
+  "verbose": true,
+  "ignore": [
+    "public",
+    "dist",
+    "node_modules"
+  ],
+  "watch": [
+    "src"
+  ],
+  "exec": "ts-node --transpile-only --project tsconfig.json src/index.ts",
+  "ext": "ts"
+}
