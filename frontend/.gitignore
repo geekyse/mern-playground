@@ -4,4 +4,4 @@ frontend/.next
 dist
 .idea
 .DS_Store
-.docker
+.dockerg
