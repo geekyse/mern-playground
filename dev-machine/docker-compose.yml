@@ -1,32 +1,47 @@
 version: "3.1"
 
 services:
-  mysql:
-    image: mysql:5.7
-    volumes:
-      - db_data:/var/lib/mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: app
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    ports:
-      - 3306:3306
 
-  rabbitmq:
-    container_name: rabbitmq
-    image: "rabbitmq:3-management"
-    hostname: "rabbitmq"
+  mongodb:
+    image: 'mongo'
+    container_name: 'app-mongo'
     environment:
-      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
-      RABBITMQ_DEFAULT_USER: "user"
-      RABBITMQ_DEFAULT_PASS: "pass"
-      RABBITMQ_DEFAULT_VHOST: "/"
+      MONGO_INITDB_ROOT_DATABASE: localapp
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
     ports:
-      - "15672:15672"
-      - "5672:5672"
+      - "27117:27017"
     restart: always
+
+#  mysql:
+#    image: mysql:5.7
+#    volumes:
+#      - db_data:/var/lib/mysql
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: rootpassword
+#      MYSQL_DATABASE: app
+#      MYSQL_USER: user
+#      MYSQL_PASSWORD: password
+#    ports:
+#      - 3306:3306
+
+#  rabbitmq:
+#    container_name: rabbitmq
+#    image: "rabbitmq:3-management"
+#    hostname: "rabbitmq"
+#    environment:
+#      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+#      RABBITMQ_DEFAULT_USER: "user"
+#      RABBITMQ_DEFAULT_PASS: "pass"
+#      RABBITMQ_DEFAULT_VHOST: "/"
+#    ports:
+#      - "15672:15672"
+#      - "5672:5672"
+#    restart: always
 
 #  app:
 #    build:
