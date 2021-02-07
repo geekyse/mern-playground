@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Layout from '../../layouts';
+import Layout from '../../components/layout';
 import {axiosInstance, getConfig} from '../../util/axios';
 import Link from 'next/link';
 

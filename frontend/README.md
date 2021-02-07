@@ -1,9 +1,1 @@
-
-
-###To run the development server :
-
-```bash
-    - yarn
-    - yarn dev
-```
-
+For installation instructions, please go to https://d-board-nextjs.mobifica.com/documentation

@@ -1,4 +1,5 @@
 import {useDispatch} from 'react-redux'
+import React from "react";
 
 const Colors = ({title, palettes, name}) => {
   const dispatch = useDispatch()

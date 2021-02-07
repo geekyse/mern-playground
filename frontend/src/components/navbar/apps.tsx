@@ -9,6 +9,7 @@ import {
   FiInstagram,
   FiLinkedin
 } from 'react-icons/fi'
+import React from "react";
 
 const Apps = () => {
   const items = [

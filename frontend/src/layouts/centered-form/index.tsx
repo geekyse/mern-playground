@@ -1,3 +1,4 @@
+import React from "react";
 
 const Index = ({title, subtitle, children}) => {
   return (

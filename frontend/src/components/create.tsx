@@ -4,7 +4,7 @@ import {axiosInstance} from '../util/axios';
 import {useRouter} from 'next/router';
 import * as Yup from 'yup';
 
-export default function Create(props) {
+export default function Create() {
     const router = useRouter();
 
     const formSchema = Yup.object().shape({
@@ -36,6 +36,7 @@ export default function Create(props) {
             password: ''
         },
         validationSchema: formSchema,
+
         onSubmit: (values) => {
             axiosInstance.post('/user/', values).then(response => {
                 router.push(`/view/${response.data.id}`);

@@ -1,10 +1,10 @@
 {
-  "name": "D-board",
-  "version": "1.4.0",
+  "name": "kaykroo-frontend",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "next dev -p 3005",
     "build": "next build",
-    "export": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
@@ -26,9 +26,12 @@
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
     "faker": "^5.1.0",
+    "formik": "^2.2.6",
     "madge": "^3.12.0",
     "moment": "^2.29.1",
     "next": "10.0.3",
+    "next-cookies": "^2.0.3",
+    "nodemon": "^2.0.7",
     "nprogress": "^0.2.0",
     "postcss": "^7",
     "postcss-import": "^14.0.0",
@@ -51,7 +54,8 @@
     "recharts": "^1.8.5",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "yup": "^0.32.8"
   },
   "license": "ISC",
   "devDependencies": {
@@ -59,10 +63,10 @@
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.3.1",
     "@types/node": "^14.14.22",
-    "@types/react": "^17.0.0",
-    "formik": "^2.2.6",
-    "next-cookies": "^2.0.3",
+    "@types/react": "^17.0.1",
+    "js-cookie": "^2.2.1",
+    "nookies": "^2.5.2",
     "postcss-color-function": "^4.1.0",
-    "yup": "^0.32.8"
+    "react-intl": "^5.12.1"
   }
 }

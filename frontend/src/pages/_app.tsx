@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import {Provider} from 'react-redux'
-import Layout from '../layouts'
+import Layout from '../layouts/index'
+import {useStore} from '../store'
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import '../css/tailwind.css'
@@ -24,14 +25,14 @@ import '../css/components/tables.css'
 import '../css/components/tabs.css'
 import '../css/components/user-widgets/widget-2.css'
 import '../css/components/user-widgets/widget-4.css'
-import {store} from "next/dist/build/output/store";
-import React from "react";
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
-function MyApp({Component, pageProps}) {
+export default function MyApp({Component, pageProps}) {
+    const store = useStore(pageProps.initialReduxState)
+
     return (
         <>
             <Head>
@@ -39,7 +40,6 @@ function MyApp({Component, pageProps}) {
                     name="viewport"
                     content="width=device-width, initial-scale=1, shrink-to-fit=no"
                 />
-                <title/>
             </Head>
             <Provider store={store}>
                 <Layout>
@@ -49,5 +49,3 @@ function MyApp({Component, pageProps}) {
         </>
     )
 }
-
-export default MyApp

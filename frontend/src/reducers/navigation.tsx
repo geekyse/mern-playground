@@ -15,6 +15,7 @@ import {
   FiShoppingCart,
   FiHome
 } from 'react-icons/fi'
+import React from "react";
 
 const initialState = [
   {

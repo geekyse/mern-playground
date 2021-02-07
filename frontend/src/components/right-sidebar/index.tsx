@@ -3,6 +3,7 @@ import Toggle from './toggle'
 import Sidebar from './sidebar'
 import Demos from './demos'
 import {useSelector, shallowEqual} from 'react-redux'
+import React from "react";
 
 const RightSidebar = () => {
   const colors = [

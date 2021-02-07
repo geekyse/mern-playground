@@ -1,6 +1,7 @@
 import Switch from 'react-switch'
 import {getColor} from '../../functions/colors'
 import {useSelector, useDispatch, shallowEqual} from 'react-redux'
+import React from "react";
 
 const Component = () => {
   let onColor = `bg-blue-200`
