@@ -5,8 +5,9 @@ import React from "react";
 import Datatable from "../components/datatable";
 import {axiosInstance, getConfig} from "../util/axios";
 import Section from "../components/dashboard/section";
+import {withAuthSync} from "../util/auth";
 
-export const Index = (props) => {
+const Index = (props) => {
     let result = props
     const columns = React.useMemo(
         () => [
@@ -97,6 +98,6 @@ Index.getInitialProps = async function (router) {
     let response = await axiosInstance.get('/user', axiosConfig)
     return response.data
 };
-export default Index
+export default withAuthSync(Index,true);
 
 

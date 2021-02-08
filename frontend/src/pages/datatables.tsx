@@ -3,8 +3,9 @@ import SectionTitle from '../components/section-title/index'
 import Datatable from '../components/datatable'
 import Widget from '../components/widget/index'
 import {axiosInstance, getConfig} from "../util/axios";
+import {withAuthSync} from "../util/auth";
 
-const Simple = (props) => {
+const DataTables = (props) => {
     let result = props
 
     const columns = React.useMemo(
@@ -37,7 +38,7 @@ const Simple = (props) => {
     return <Datatable columns={columns} data={data}/>
 }
 
-Simple.getInitialProps = async function (router) {
+DataTables.getInitialProps = async function (router) {
     const axiosConfig = getConfig(router);
     let response = await axiosInstance.get('/user', axiosConfig)
     return response.data
@@ -49,11 +50,11 @@ export const Index = () => (
         <Widget
             title="Datatable example"
             description={<span>Use the <code>&lt;Datatable /&gt;</code> component to create a datatable</span>}>
-            <Simple/>
+            <DataTables/>
         </Widget>
     </>
 )
 
-export default Simple
+export default withAuthSync(DataTables)
 
 

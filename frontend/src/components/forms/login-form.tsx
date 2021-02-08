@@ -3,18 +3,23 @@ import Validation from '../forms/validation'
 import Alert from '../alerts'
 import {axiosInstance} from "../../util/axios";
 import {useRouter} from "next/router";
+import {login} from "../../util/cookies";
 
 const Login = ({message = ''}) => {
+    const [data, setData] = useState('');
 
-    const [data,dsasdasdas] = useState(null)
+    const [errorSummary, setErrorSummary] = useState('');
+
     const router = useRouter();
 
     const onSubmit = async (values) => {
-       await axiosInstance.post(`/user/login`, values
+        await axiosInstance.post(`/user/login`, values
         ).then(response => {
+            setData(response.data)
+            login(response.data.token);
             router.push(`/`);
         }).catch(error =>{
-                console.log(error)
+            setErrorSummary(error.message)
             }
         )
     };
@@ -48,10 +53,10 @@ const Login = ({message = ''}) => {
     return (
         <>
             <div className="flex flex-col">
-                {data && message && (
+                { errorSummary && message && (
                     <div className="w-full mb-4">
                         <Alert
-                            color="bg-transparent border-green-500 text-green-500"
+                            color="bg-transparent border-red-500 text-red-500"
                             borderLeft
                             raised>
                             {message}

@@ -1,65 +1,61 @@
 import React, {useState} from 'react'
 import Validation from '../forms/validation'
 import Alert from '../alerts'
+import {axiosInstance} from "../../util/axios";
+import {useRouter} from "next/router";
+import {parseCookies} from "nookies";
+import Breadcrumb from "../breadcrumbs";
 
-const AccountSettings = ({message = null}) => {
-  const [data, onSubmit] = useState(null)
+export default function AccountSettings(props,{message = null}) {
+  const [data, setData] = useState(null)
+  const {user} = props;
+
+  const router = useRouter();
+
+  const cookies = parseCookies(router);
+
+
+  const onSubmit = async (values) => {
+    await axiosInstance.put(`/user/${user.newUser.id}`, values).then(response => {
+      router.push(`/user-profile/${user.newUser.id}`);
+    })
+
+  };
+
   let items = [
+    {
+      label: 'User name',
+      error: {required: 'Please enter a valid first name'},
+      name: 'userName',
+      type: 'text',
+      placeholder: user.newUser.userName
+    },
     {
       label: 'First name',
       error: {required: 'Please enter a valid first name'},
-      name: 'first-name',
+      name: 'firstName',
       type: 'text',
-      placeholder: 'Enter you first name'
+      placeholder: user.newUser.firstName
     },
     {
       label: 'Last name',
       error: {required: 'Please enter a valid last name'},
-      name: 'last-name',
+      name: 'lastName',
       type: 'text',
-      placeholder: 'Enter you last name'
+      placeholder: user.newUser.lastName
     },
     {
-      label: 'Email address',
-      error: {required: 'Please enter a valid email address'},
-      name: 'email',
-      type: 'email',
-      placeholder: 'Enter you email address'
-    },
-    {
-      label: 'Company',
-      error: {required: 'Please enter a valid company'},
-      name: 'company',
+      label: 'Bio',
+      error: {required: 'Please enter a bio'},
+      name: 'bio',
       type: 'text',
-      placeholder: 'Enter you company'
-    },
-    {
-      label: 'Position',
-      error: {required: 'Please enter a valid position'},
-      name: 'position',
-      type: 'text',
-      placeholder: 'Enter you position'
-    },
-    {
-      label: 'Language',
-      error: {
-        required: 'Language is required',
-        validate: value =>
-          ['english', 'spanish', 'portuguese'].includes(value) ||
-          'Language is required'
-      },
-      name: 'language',
-      type: 'select',
-      options: [
-        {value: null, label: 'Select language'},
-        {value: 'english', label: 'English'},
-        {value: 'spanish', label: 'Spanish'},
-        {value: 'portuguese', label: 'Portuguese'}
-      ]
+      placeholder: user.newUser.bio
     }
+
   ]
   return (
     <>
+
       <div className="flex flex-col">
         {data && message && (
           <div className="w-full mb-4">
@@ -77,4 +73,3 @@ const AccountSettings = ({message = null}) => {
   )
 }
 
-export default AccountSettings

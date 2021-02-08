@@ -6,14 +6,14 @@ const FormValidation = ({items, onSubmit, alerts}) => {
     const {handleSubmit, errors, register} = useForm()
     const onSubmitFn = data => {
         if (onSubmit) {
-             onSubmit(data)
+            onSubmit(data)
         }
     }
     items = items.map(item => {
         item['ref'] = register(item['error'])
         return item
     })
-
+    console.log(items,"------items------")
     return (
         <form
             onSubmit={handleSubmit(onSubmitFn)}
@@ -39,7 +39,7 @@ const FormValidation = ({items, onSubmit, alerts}) => {
                 )
             })}
             <div className="w-full">
-                {items.map((item,i) => {
+                {items.map((item, i) => {
                     if (item.type === 'checkbox') {
                         return (
                             <div className="form-element">
@@ -60,8 +60,8 @@ const FormValidation = ({items, onSubmit, alerts}) => {
                                                 className={`${
                                                     errors[item.name] ? 'text-red-500' : ''
                                                 }`}>
-                        {option.label}
-                      </span>
+                                            {option.label}
+                                            </span>
                                         </label>
                                     ))}
                                 </div>

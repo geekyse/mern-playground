@@ -9,7 +9,9 @@ import {isLoggedIn} from './cookies';
 export const logout = () => {
     Cookies.remove('token');
     // To trigger the event listener we save some random data into the `logout` key
-    window.localStorage.setItem('logout', Date.now().toString()); // new
+    if (typeof window !== 'undefined') {
+        window.localStorage.setItem('logout', Date.now().toString()); // new
+    }
 };
 
 export const SaveOption = (option: string, value: any) => {
@@ -42,11 +44,6 @@ export const logoutAdmin = () => {
         window.localStorage.setItem('logout', Date.now().toString()); // new
     }
 
-};
-
-
-export const login = (token) => {
-    Cookies.set('token', token, {expires: 1});
 };
 
 export const setCartId = (cartId) => {
@@ -91,7 +88,6 @@ export const withAuthSync = (WrappedComponent, requireAuth = true) => {
     Wrapper.getInitialProps = async ctx => {
 
         const {token} = nextCookie(ctx);
-
         const isLogged = isLoggedIn(ctx);
 
         if (requireAuth && !isLogged) {
@@ -114,7 +110,6 @@ export const withAuthSync = (WrappedComponent, requireAuth = true) => {
                 await Router.push('/');
             }
         }
-
 
         const componentProps = WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
 

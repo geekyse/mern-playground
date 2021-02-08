@@ -21,14 +21,15 @@ export const getCartId = (req) => {
 export const emptyCart = () => {
     Cookies.remove('cartId');
 };
+
 export const isLoggedIn = (req) => {
     if (!req.cookies) {
         const {token} = parseCookies(req);
         return (token !== undefined && token !== null && token !== '');
     }
     const {token} = req.cookies;
+    console.log("------token-------")
     return token;
-
 };
 
 

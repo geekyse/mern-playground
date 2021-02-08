@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import {HttpError} from "./errors";
 import {StatusCodes} from "http-status-codes";
 import {dbConnection} from "./server/db";
+import {Authenticate} from "./util/request";
 
 
 async function app() {
@@ -41,6 +42,9 @@ const createApp = async () => {
     // logs http requests
     app.use(morgan('combined'));
     app.use(cors());
+
+    app.use(Authenticate);
+
     app.use('/', allRoutes);
     app.get('/', (req, res) => res.send('App works fine'))
 

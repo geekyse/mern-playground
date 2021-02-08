@@ -31,7 +31,7 @@ const Index = () => {
                             Please enter your username and password to login
                         </div>
                     </div>
-                    <Login />
+                    <Login message={"Wrong email or password ."} />
                     <div className="mt-4 mb-2">
                         <SocialMedia />
                     </div>

@@ -36,13 +36,13 @@ export async function create(req: any, res: any): Promise<void> {
 
     const userExist = await User.count({email: userRow.email});
     if (userExist > 0) {
-        res.status(400).json(ValidationError('email', 'This is email already registered'));
+        res.status(400).json(ValidationError('email', 'This email already registered'));
         return;
     }
 
     const userNameExist = await User.count({userName: userRow.userName});
     if (userNameExist > 0) {
-        res.status(400).json(ValidationError('userName', 'This is user name already exist',400));
+        res.status(400).json(ValidationError('userName', 'This user name already exist',400));
         return;
     }
 

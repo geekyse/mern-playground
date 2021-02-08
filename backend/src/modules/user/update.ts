@@ -17,33 +17,9 @@ export const updateValidator: BaseValidationType = [
     body('lastName')
         .optional()
         .isString(),
-    body('email')
-        .notEmpty()
-        .isEmail()
-        .normalizeEmail()
-        .isString(),
-    body('password')
-        .notEmpty()
-        .isString()
-        .isLength({min: 8, max: 255}),
     body('bio')
         .isString()
         .isLength({max: 255}),
-    body('address')
-        .isString()
-        .isLength({max: 255}),
-    body('city')
-        .isString()
-        .isLength({max: 50}),
-    body('education')
-        .isString()
-        .isLength({max: 500}),
-    body('work')
-        .isString()
-        .isLength({max: 255}),
-    body('about')
-        .isString()
-        .isLength({max: 500}),
     reqValidationResult
 ];
 

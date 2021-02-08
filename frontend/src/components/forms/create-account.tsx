@@ -5,16 +5,17 @@ import {axiosInstance, getConfig} from "../../util/axios";
 import {useRouter} from "next/router";
 
 const CreateAccount = ({message = null}, props: any) => {
-    const [data] = useState(null)
+    const [errorSummery,setErrorSummry] = useState(null)
     const router = useRouter();
 
     let onSubmit = async (values) => {
 
         await axiosInstance.post('/user', values)
-            .then(function (response) {
+            .then( (response)=> {
                 router.push(`/login`);
             })
-            .catch(function (error) {
+            .catch( (error)=> {
+                setErrorSummry(error.message)
                 console.log(error);
             });
     };
@@ -69,10 +70,10 @@ const CreateAccount = ({message = null}, props: any) => {
     return (
         <>
             <div className="flex flex-col">
-                {data && message && (
+                {errorSummery && message && (
                     <div className="w-full mb-4">
                         <Alert
-                            color="bg-transparent border-green-500 text-green-500"
+                            color="bg-transparent border-red-500 text-red-500"
                             borderLeft
                             raised>
                             {message}

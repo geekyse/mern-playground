@@ -1,18 +1,19 @@
 import Head from 'next/head';
-import Layout from '../../components/layout';
 import {axiosInstance, getConfig} from '../../util/axios';
 import Update from '../../components/update';
+import React from 'react';
+import Layouts from "../../layouts";
 
 export default function Home(props) {
     let {user} = props;
 
     if (!user.id) {
-        return <Layout>
+        return <Layouts>
             <div><h1>User Not Found</h1></div>
-        </Layout>;
+        </Layouts>;
     }
 
-    return <Layout>
+    return <Layouts>
         <Head>
             <title>View User {user.id}</title>
         </Head>
@@ -26,14 +27,13 @@ export default function Home(props) {
                 </div>
             </div>
         </div>
-    </Layout>;
+    </Layouts>;
 }
 
 Home.getInitialProps = async function (router) {
 
     const axiosConfig = getConfig(router);
     const {id} = router.query;
-
     let response = await axiosInstance.get(`/user/${id}`, axiosConfig);
 
     return {user: response.data};

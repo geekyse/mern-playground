@@ -81,39 +81,37 @@ export const getGridParams = async (req) => {
     return {sort, sortBy, page, pageSize};
 };
 
-// export const Authenticate = async (req, res, next) => {
-//     const token = req.headers['x-user-token'] ?? '';
-//     if (!token) {
-//         console.log('Authenticate: no x-user-token');
-//
-//         return next();
-//     } else {
-//         console.log(`Authenticate: x-user-token: ${token}`);
-//
-//     }
-//
-//     const session = await CustomerSession.findOne({token});
-//
-//     if (session) {
-//         console.log('Authenticate: session found');
-//
-//         const user = await Customer.findOne({_id: session.userId});
-//         if (user) {
-//             echo('Authenticate: user found');
-//             req.userToken = token;
-//             // @ts-ignore
-//             req.user = await Customer.format(user);
-//             return next();
-//         } else {
-//             echo(user);
-//             echo('Authenticate: user not found');
-//         }
-//     } else {
-//         echo('Authenticate: no valid session found');
-//
-//     }
-//     return next();
-// };
+export const Authenticate = async (req, res, next) => {
+    const token = req.headers['x-user-token'] ?? '';
+    if (!token) {
+        console.log('Authenticate: no x-user-token');
+        return next();
+    } else {
+        console.log(`Authenticate: x-user-token: ${token}`);
+    }
+
+    const session = await UserSession.findOne({token});
+
+    if (session) {
+        console.log('Authenticate: session found');
+
+        const user = await User.findOne({_id: session.userId});
+        if (user) {
+            echo('Authenticate: user found');
+            req.userToken = token;
+            // @ts-ignore
+            req.user = await User.format(user);
+            return next();
+        } else {
+            echo(user);
+            echo('Authenticate: user not found');
+        }
+    } else {
+        echo('Authenticate: no valid session found');
+
+    }
+    return next();
+};
 
 export const AuthenticateAdmin = async (req, res, next) => {
     const token = req.headers['x-admin-token'] ?? '';
@@ -152,8 +150,7 @@ export const AuthenticateAdmin = async (req, res, next) => {
 export const isAuthorized = async (req, res, next) => {
 
     if (!req.userToken || !req.user) {
-        return next(new HttpError(401, 'UnAuthorized'));
-
+        return next(new HttpError(401, 'UnAuthorized','UnAuthorized Admin'));
     } else {
         return next();
     }
