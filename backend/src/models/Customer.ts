@@ -56,6 +56,7 @@ CustomerSchema.methods.unsafeFields = function () {
 CustomerSchema.methods.generateSession = async function (loginChannel: string = '', channelAccessToken: string = '', channelRefreshToken: string = '') {
 // create session
     const userSession = new CustomerSession();
+    // @ts-ignore
     userSession.email = this.email;
     userSession.token = generateRandomString(20);
     userSession.userId = this.id;
