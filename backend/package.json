@@ -48,6 +48,7 @@
     "express-validator": "^6.6.1",
     "http-status-codes": "^2.1.4",
     "install": "^0.13.0",
+    "mem": "^8.0.0",
     "mongoose": "^5.11.13",
     "mongoose-slug-updater": "^3.2.3",
     "morgan": "^1.10.0",
@@ -59,7 +60,8 @@
     "slug": "^4.0.2",
     "slugify": "^1.4.5",
     "turndown": "^7.0.0",
-    "typescript-rabbitmq": "0.0.8"
+    "typescript-rabbitmq": "0.0.8",
+    "yargs-parser": "^20.2.4"
   },
   "keywords": [],
   "description": ""
