@@ -10,12 +10,15 @@ interface IUser extends Document {
     address: string;
     email: string;
     password: string;
+    role: string;
+    format: (User: IUser) => IUser;
+    // used to create admin user from cli (create-admin)
+    createUser: any;
+    // used to session after login
+    generateSession: any;
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
-    format: (User: IUser) => IUser;
-    createUser: any;
-    generateSession: any;
 }
 
 const UserSchema = new Schema({
@@ -24,10 +27,14 @@ const UserSchema = new Schema({
     lastName: {type: String, required: true},
     bio: {type: String},
     address: {type: String},
+    role: {type: String, required: true,},
     email: {type: String, required: [true, 'Why no Email ?']},
     password: {type: String, min: [8, 'Too few eggs'], required: [true, 'Why no Password ?']},
-    sessionId: {type: String},
+    resetPasswordRequested: {type: Boolean, required: true, default: false},
+    isLocked: {type: Boolean, required: true, default: false},
+    lockedUntil: {type: Date, required: false},
     isActive: {type: Boolean, required: true, default: true,},
+    sessionId: {type: String},
     failedTriesCount: {type: Number},
     lastFailedLoginAt: {type: Date}
 }, {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}, versionKey: false,});
@@ -52,7 +59,7 @@ UserSchema.methods.generateSession = async function () {
     try {
         return await Session.save();
     } catch (error) {
-        console.log(error);
+        console.log(error,"error while creating user session !");
         return null;
     }
 };
@@ -73,6 +80,7 @@ UserSchema.methods.createUser = async function (user: IUser) {
     userData.lastName = user.lastName;
     userData.email = user.email;
     userData.password = hashedPassword;
+    userData.role = user.role;
     userData.isActive = true;
 
     const userExist = await User.findOne({email: userData.email});

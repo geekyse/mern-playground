@@ -2,12 +2,12 @@ import createError from "http-errors";
 import express, {Application, NextFunction} from "express";
 import morgan from "morgan";
 import cors from "cors";
-import {allRoutes} from "./modules/routes";
+import {allRoutes} from "./modules/system/routes";
 import cookieParser from "cookie-parser";
 import {HttpError} from "./errors";
 import {StatusCodes} from "http-status-codes";
 import {dbConnection} from "./server/db";
-import {Authenticate} from "./util/request";
+import { AuthenticateAdmin} from "./util/request";
 
 
 async function app() {
@@ -43,7 +43,7 @@ const createApp = async () => {
     app.use(morgan('combined'));
     app.use(cors());
 
-    app.use(Authenticate);
+    app.use(AuthenticateAdmin);
 
     app.use('/', allRoutes);
     app.get('/', (req, res) => res.send('App works fine'))

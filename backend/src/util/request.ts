@@ -151,7 +151,7 @@ export const AuthenticateAdmin = async (req, res, next) => {
 // Check if user token exists (token in cookies react saved after login)
 export const isAuthorized = async (req, res, next) => {
     if (!req.userToken || !req.user) {
-        return next(new HttpError(401, 'UnAuthorized','UnAuthorized'));
+        return next(new HttpError(401, 'UnAuthorized',),);
     } else {
         return next();
     }
