@@ -3,7 +3,9 @@ import slug from 'mongoose-slug-updater';
 
 
 export const dbConnection = async () => {
+    // singleton design pattern
     let connection;
+
     if (connection) {
         return connection;
     }

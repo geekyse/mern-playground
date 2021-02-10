@@ -22,8 +22,12 @@ export const createValidator: BaseValidationType = [
 ];
 
 export async function create(req: any, res: any): Promise<void> {
+    // get data from request body and set them to a constant
     const {body} = req;
+
+    // hashing password before being saved in mongo
     const hashedPassword = hashPassword(body.password);
+
     const userRow = new User();
     userRow.userName = body.userName;
     userRow.firstName = body.firstName;
@@ -34,12 +38,14 @@ export async function create(req: any, res: any): Promise<void> {
     userRow.password = hashedPassword;
     userRow.isActive = true;
 
+    // unique email
     const userExist = await User.count({email: userRow.email});
     if (userExist > 0) {
         res.status(400).json(ValidationError('email', 'This email already registered'));
         return;
     }
 
+    // unique user name
     const userNameExist = await User.count({userName: userRow.userName});
     if (userNameExist > 0) {
         res.status(400).json(ValidationError('userName', 'This user name already exist',400));

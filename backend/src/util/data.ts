@@ -17,7 +17,7 @@ export const getMaritalStatuses = () => {
 };
 export const getMaritalStatus = (id: number) => {
     let value = {};
-    getMaritalStatuses().map((item) => {
+    getMaritalStatuses().map((item: {label: string, value: number}) => {
         if (item.value === id) {
             value = item;
         }

@@ -22,6 +22,7 @@ export const generateFilterCondition = async (filter) => {
     return whereObject;
 };
 
+// Return data listed for pagination
 export async function getPageData(req: any, model: any): Promise<object> {
     const {sortBy, page, pageSize} = await getGridParams(req);
     const filter = req.query.filter ? req.query.filter : {};
@@ -147,16 +148,16 @@ export const AuthenticateAdmin = async (req, res, next) => {
     return next();
 };
 
+// Check if user token exists (token in cookies react saved after login)
 export const isAuthorized = async (req, res, next) => {
-
     if (!req.userToken || !req.user) {
-        return next(new HttpError(401, 'UnAuthorized','UnAuthorized Admin'));
+        return next(new HttpError(401, 'UnAuthorized','UnAuthorized'));
     } else {
         return next();
     }
-
 };
 
+// Check if admin token exists (token in cookies react saved after login)
 export const isAuthorizedAdmin = async (req, res, next) => {
     if (!req.adminToken || !req.admin) {
         return next(new HttpError(401, 'UnAuthorized Admin'));
@@ -172,7 +173,6 @@ export const NotFoundError = () => {
 };
 
 export const ValidationError = (field: string, error: string, status = 400) => {
-
     return {
         'status': status,
         // 'name': 'Error',
@@ -189,7 +189,6 @@ export const ValidationError = (field: string, error: string, status = 400) => {
 };
 
 export const ServerError = (error: string = '', status = 500) => {
-
     return {
         'status': status ? status : 'Server Error',
         // 'name': 'Error',
