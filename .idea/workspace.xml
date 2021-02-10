@@ -20,12 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9058c9cd-789e-442c-83fb-05a3b4bd355e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/modules/user/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/modules/user/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/server/db.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/server/db.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/util/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/util/data.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/util/rabbit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/util/rabbit.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/util/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/util/request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.gitignore" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +67,17 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="dev-machine.image: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings>
@@ -119,7 +127,7 @@
       <workItem from="1612216998560" duration="2415000" />
       <workItem from="1612479391848" duration="4763000" />
       <workItem from="1612707853209" duration="22501000" />
-      <workItem from="1612821191780" duration="1594000" />
+      <workItem from="1612821191780" duration="1948000" />
     </task>
     <servers />
   </component>
@@ -146,6 +154,10 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="627" y="284" key="FileChooserDialogImpl/0.0.1680.1050/-142.-1080.1920.1080@0.0.1680.1050" timestamp="1612717257240" />
+    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1612977215156">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1680.1050/-142.-1080.1920.1080@0.0.1680.1050" timestamp="1612977215156" />
     <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1612714715841">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
