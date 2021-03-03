@@ -1,7 +1,8 @@
-import {BaseValidationType, reqValidationResult} from '../../../types';
 import {param} from 'express-validator';
 import {NotFoundError} from "../../../util/request";
 import {Customer} from "../../../models/Customer";
+import {reqValidationResult} from "../../../types/req-validation-result";
+import {BaseValidationType} from "../../../types/validators";
 
 export const getValidator: BaseValidationType = [
     param('id')

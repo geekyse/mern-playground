@@ -16,5 +16,5 @@ RUN npm install
 COPY . /app
 
 EXPOSE 8080
-
+CMD [ "yarn" ]
 CMD [ "yarn" ,"dev" ]

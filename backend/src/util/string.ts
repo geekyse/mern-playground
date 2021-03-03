@@ -1,8 +1,5 @@
 import slugify from 'slugify';
-
 import bcrypt from "bcrypt";
-import {UserSchema} from "../models/User";
-import {Schema} from "mongoose";
 
 const saltRounds = 10;
 

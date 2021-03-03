@@ -1,6 +1,7 @@
 import {param} from 'express-validator';
-import {BaseValidationType, reqValidationResult} from '../../../types';
 import {User} from "../../../models/User";
+import {BaseValidationType} from "../../../types/validators";
+import {reqValidationResult} from "../../../types/req-validation-result";
 
 
 export const deleteValidator: BaseValidationType = [

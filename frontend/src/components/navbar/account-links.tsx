@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import {FiMail, FiStar, FiUser, FiLogIn} from 'react-icons/fi'
+import React from 'react';
 
 const AccountLinks = () => {
     const items = [
 
         {
-            url: '/user-profile',
+            url: '/profile',
             icon: <FiUser size={18} className="stroke-current"/>,
             name: 'Profile',
             badge: null

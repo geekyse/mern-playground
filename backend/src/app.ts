@@ -8,6 +8,9 @@ import {HttpError} from "./errors";
 import {StatusCodes} from "http-status-codes";
 import {dbConnection} from "./server/db";
 import { AuthenticateAdmin} from "./util/request";
+import compression from 'compression';
+import bodyParser from 'body-parser';
+import { sendHttpErrorModule } from './errors/send-http-error';
 
 
 async function app() {
@@ -19,12 +22,19 @@ async function app() {
 
 const initErrorHandler = (app: Application) => {
     app.use((error: Error, req: any, res: any, next: NextFunction): void => {
+
+        if (typeof error === 'number') {
+            error = new HttpError(error); // next(404)
+        }
+
         if (error instanceof HttpError) {
             res.sendHttpError(error);
         } else {
+
             console.log(error);
+
             error = new HttpError(StatusCodes.INTERNAL_SERVER_ERROR);
-            res.sendHttpError(error);
+            res.sendHttpError(error, error.message);
         }
     });
 };
@@ -32,16 +42,16 @@ const initErrorHandler = (app: Application) => {
 const createApp = async () => {
     const app = express()
     app.use(cookieParser());
-
-    // support json middleware
-    app.use(express.json());
-
-    // parse body data
-    app.use(express.urlencoded({extended: false}));
-
-    // logs http requests
     app.use(morgan('combined'));
     app.use(cors());
+
+// returns the compression middleware
+    app.use(compression());
+    app.use(bodyParser.json());
+    // app.use(bodyParser.urlencoded());
+    // app.use(bodyParser.urlencoded({extended: true}));
+    app.disable('x-powered-by');
+    app.use(sendHttpErrorModule);
 
     app.use(AuthenticateAdmin);
 
@@ -49,21 +59,6 @@ const createApp = async () => {
     app.get('/', (req, res) => res.send('App works fine'))
 
     // catch 404 and forward to error handler (Middleware)
-    app.use((req, res, next) => {
-        console.log("invalid url : ... :(")
-        next(createError(404))
-    });
-
-    // error handler
-    app.use((err, req, res, next: NextFunction) => {
-        // set locals, only providing error in development
-        res.locals.message = err.message;
-        res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-        // render the error page
-        res.status(err.status || 500);
-        res.json(err);
-    });
 
     app.listen("8080", () => console.log(`App listening at http://localhost:8080`))
     return app;

@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import {parseCookies} from "nookies";
 
 export const login = (token) => {
-    Cookies.set('token', token, {expires: 1});
+    Cookies.set('x-admin-token', token, {expires: 1});
 };
 
 export const setCartId = (cartId) => {
@@ -28,7 +28,6 @@ export const isLoggedIn = (req) => {
         return (token !== undefined && token !== null && token !== '');
     }
     const {token} = req.cookies;
-    console.log("------token-------")
     return token;
 };
 

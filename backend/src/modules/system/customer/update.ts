@@ -1,7 +1,8 @@
 import {body} from 'express-validator';
-import {BaseValidationType, reqValidationResult} from '../../../types';
 import {ValidationError} from "../../../util/request";
 import {Customer} from "../../../models/Customer";
+import {BaseValidationType} from "../../../types/validators";
+import {reqValidationResult} from "../../../types/req-validation-result";
 
 export const updateValidator: BaseValidationType = [
     body('firstName')
@@ -55,7 +56,7 @@ export async function update(req: any, res: any): Promise<void> {
         }
     }
 
-    Object.keys(body).map((key) => {
+    Object.keys(body).map((key:string) => {
         row[key] = body.hasOwnProperty(key) ? body[key] : row[key];
     });
 

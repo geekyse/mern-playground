@@ -1,13 +1,8 @@
-import Head from 'next/head';
-import Layout from '../layouts';
 import Create from '../components/create';
 import React from "react";
 
 export default function Home(props) {
-    return <Layout>
-        <Head>
-            <title>Create User</title>
-        </Head>
+    return (
         <div className={'col-12'}>
             <div className='card'>
                 <div className='card-header'>
@@ -18,6 +13,6 @@ export default function Home(props) {
                 </div>
             </div>
         </div>
-    </Layout>;
+   )
 }
 

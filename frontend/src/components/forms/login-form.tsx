@@ -1,25 +1,24 @@
 import React, {useState} from 'react'
 import Validation from '../forms/validation'
 import Alert from '../alerts'
-import {axiosInstance} from "../../util/axios";
-import {useRouter} from "next/router";
-import {login} from "../../util/cookies";
+import { useRouter} from "next/router";
+import {loginAdmin} from "../../util/auth";
+import { axiosInstance, getConfig } from '../../util/axios';
 
 const Login = ({message = ''}) => {
-    const [data, setData] = useState('');
 
-    const [errorSummary, setErrorSummary] = useState('');
+    const [error, setError] = useState(null);
 
     const router = useRouter();
+    const axiosConfig = getConfig(router);
 
     const onSubmit = async (values) => {
-        await axiosInstance.post(`/user/login`, values
-        ).then(response => {
-            setData(response.data)
-            login(response.data.token);
+        axiosInstance.post(`/system/user/login`, values, axiosConfig)
+        .then(response => {
+            loginAdmin(response.data.token);
             router.push(`/`);
         }).catch(error =>{
-            setErrorSummary(error.message)
+            setError(error.response.data.message);
             }
         )
     };
@@ -51,22 +50,21 @@ const Login = ({message = ''}) => {
         },
     ]
     return (
-        <>
             <div className="flex flex-col">
-                { errorSummary && message && (
+                { error  && (
                     <div className="w-full mb-4">
                         <Alert
                             color="bg-transparent border-red-500 text-red-500"
                             borderLeft
                             raised>
-                            {message}
+                            {error}
                         </Alert>
                     </div>
                 )}
                 <Validation items={items} onSubmit={onSubmit}/>
             </div>
-        </>
     )
 }
 
 export default Login
+

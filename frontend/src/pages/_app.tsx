@@ -25,6 +25,7 @@ import '../css/components/tables.css'
 import '../css/components/tabs.css'
 import '../css/components/user-widgets/widget-2.css'
 import '../css/components/user-widgets/widget-4.css'
+import React from "react";
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())

@@ -17,14 +17,13 @@ export const createValidator: BaseValidationType = [
     body("work"),
     body("about"),
     body("email").notEmpty().isEmail().normalizeEmail(),
-    body("password"),
+    body("password").notEmpty(),
     reqValidationResult,
 ];
 
 export async function create(req: any, res: any): Promise<void> {
     // get data from request body and set them to a constant
     const {body} = req;
-
     // hashing password before being saved in mongo
     const hashedPassword = hashPassword(body.password);
 
@@ -34,24 +33,32 @@ export async function create(req: any, res: any): Promise<void> {
     userRow.lastName = body.lastName;
     userRow.bio = body.bio;
     userRow.address = body.address;
+    userRow.city = body.city;
+    userRow.country = body.country;
+    userRow.education = body.education;
+    userRow.work = body.work;
+    userRow.about = body.about;
     userRow.email = body.email;
     userRow.password = hashedPassword;
+    userRow.role = 'Admin';
     userRow.isActive = true;
+    console.log("------------------")
 
     // unique email
     const userExist = await User.count({email: userRow.email});
     if (userExist > 0) {
-        res.status(400).json(ValidationError('email', 'This email already registered'));
-        return;
+        return  res.status(404).json(ValidationError('email', 'This email already registered'));
+
     }
+    console.log("------------------")
 
     // unique user name
     const userNameExist = await User.count({userName: userRow.userName});
     if (userNameExist > 0) {
-        res.status(400).json(ValidationError('userName', 'This user name already exist',400));
+        res.status(400).json(ValidationError('userName', 'This user name already exist'));
         return;
     }
-
+    console.log("------------------")
     try {
         await userRow.save();
         res.json(userRow);

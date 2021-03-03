@@ -3,6 +3,9 @@ import Link from 'next/link'
 import Login from '../components/forms/login-form'
 import SocialMedia from '../components/login-3/social-media'
 import React from "react";
+import Router from "next/router";
+import axios from "axios";
+
 
 const Index = () => {
     const {config} = useSelector(
@@ -31,7 +34,7 @@ const Index = () => {
                             Please enter your username and password to login
                         </div>
                     </div>
-                    <Login message={"Wrong email or password ."} />
+                    <Login  />
                     <div className="mt-4 mb-2">
                         <SocialMedia />
                     </div>
@@ -50,20 +53,7 @@ const Index = () => {
               </Link>
             </span>
                     </div>
-                    <div className="flex flex-col w-full text-xs mt-4">
-                        <div className="flex flex-row space-x-2">
-                            <Link href="/privacy-policy">
-                                <a>Privacy policy</a>
-                            </Link>
-                            <Link href="/terms-of-service">
-                                <a>Terms of service</a>
-                            </Link>
-                            <Link href="/contact-us">
-                                <a>Contact us</a>
-                            </Link>
-                        </div>
-                        <div className="text-gray-500">&copy; {name} 2020</div>
-                    </div>
+
                 </div>
             </div>
         </>

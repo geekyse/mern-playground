@@ -4,13 +4,14 @@ import CreateAccount from '../components/forms/create-account'
 import {FiTwitter, FiFacebook, FiGithub} from 'react-icons/fi'
 import React from "react";
 
-const Index = () => {
-    return (
+const Index = (props) => {
+
+  return (
         <CenteredForm
             title="Create account"
             subtitle="Please enter your name, email address and password to create an account">
 
-            <CreateAccount message="Thanks for your message. We'll get back to you as soon as possible" />
+            <CreateAccount />
 
             <div className="w-full flex flex-col w-full text-center mt-3 mb-6">
                 <p className="mb-2">Or sign up with</p>

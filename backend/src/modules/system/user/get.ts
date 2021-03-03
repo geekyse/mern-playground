@@ -12,8 +12,8 @@ export const getValidator: BaseValidationType = [
 
 export async function get(req:any, res:any) {
     try {
-        const newUser = await User.findById(req.params.id);
-        res.status(201).json({ newUser });
+        const user = await User.findById(req.params.id);
+        res.status(201).json(user);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }

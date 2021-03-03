@@ -1,8 +1,9 @@
 import {body} from 'express-validator';
-import {BaseValidationType, reqValidationResult} from "../../../types";
 import {comparePasswrds} from "../../../util/string";
 import {ServerError, ValidationError} from "../../../util/request";
 import {Customer} from "../../../models/Customer";
+import {BaseValidationType} from "../../../types/validators";
+import {reqValidationResult} from "../../../types/req-validation-result";
 
 
 export const loginValidator: BaseValidationType = [
