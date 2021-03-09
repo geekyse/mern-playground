@@ -48,4 +48,3 @@ export const hashPassword = (password: string) => {
 export const comparePasswords = (password: string, hash: string) => {
     return bcrypt.compareSync(password, hash);
 };
-

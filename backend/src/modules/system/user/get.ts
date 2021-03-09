@@ -1,24 +1,15 @@
-import {User} from "../../../models/User";
-import {reqValidationResult} from "../../../types/req-validation-result";
-import {BaseValidationType} from "../../../types/validators";
-import {param} from 'express-validator';
+import { reqValidationResult } from '../../../types/req-validation-result';
+import { BaseValidationType } from '../../../types/validators';
+import { param } from 'express-validator';
+import { getUserById } from '../../../models/user-helpers';
 
+export const getValidator: BaseValidationType = [param('id').notEmpty().isString(), reqValidationResult];
 
-export const getValidator: BaseValidationType = [
-    param('id')
-        .notEmpty()
-        .isString(),
-    reqValidationResult];
-
-export async function get(req:any, res:any) {
-    try {
-        const user = await User.findById(req.params.id);
-        res.status(201).json(user);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
+export async function get(req: any, res: any) {
+  try {
+    const user = await getUserById(req.params.id);
+    return res.status(201).json(user);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
 }
-
-
-
-

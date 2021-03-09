@@ -29,6 +29,7 @@
     //    }
   },                                         /* List of folders to include type definitions from. */
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "node_modules/@types/jest/index.d.ts"
   ]
 }
