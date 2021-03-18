@@ -34,7 +34,7 @@ const DataTables = (props) => {
         ],
         []
     )
-    const data = React.useMemo(() => result.data, [])
+    const data = React.useMemo(() => result.data, [result.data])
     return <Datatable columns={columns} data={data}/>
 }
 

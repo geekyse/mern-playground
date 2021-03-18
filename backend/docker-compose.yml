@@ -1,46 +1,18 @@
 version: '3.2'
 
 services:
-
-  mongodb:
-    image: 'mongo'
-    container_name: 'app-mongo'
+  app:
+    container_name: 'EC-App'
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: mongo
-    volumes:
-      - ./data/config/mongod.conf:/etc/mongod.conf
-      - ./data/log/mongodb:/var/log/mongodb
-      - ./data/mongodb:/var/lib/mongodb
+      ENV_NAME: dev
     ports:
-      - "27117:27017"
-    restart: always
+      - 7001:7001
+    networks:
+      - ec-proxy-net
 
-#  mysql:
-#    image: mysql:5.7
-#    container_name: 'app-mysql'
-#    volumes:
-#      - db_data:/var/lib/mysql
-#    restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: rootpassword
-#      MYSQL_DATABASE: app
-#      MYSQL_USER: user
-#      MYSQL_PASSWORD: password
-#    ports:
-#      - 3316:3306
-#
-#  app:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    environment:
-#      ENV_NAME: dev
-#    ports:
-#      - 7001:7001
-#    depends_on:
-#      - "mongodb"
-#      - "mysql"
-
-volumes:
-  db_data: { }
+networks:
+  ec-proxy-net:
+    name: ec_network

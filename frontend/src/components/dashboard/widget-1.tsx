@@ -1,3 +1,4 @@
+import React from 'react';
 
 const Widget1 = ({title, description, right = null}) => {
   return (

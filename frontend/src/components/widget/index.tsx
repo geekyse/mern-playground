@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
+import React from 'react';
 
-const Widget = ({title = null, description = null, right = null, children}) => {
+const Widget = ({title = '', description , right = '', children}) => {
   return (
     <div className="widget w-full p-4 mb-4 rounded-lg bg-white border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
       {(title || description || right) && (

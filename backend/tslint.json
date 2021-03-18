@@ -16,7 +16,7 @@
         "new-parens": false,
         "only-arrow-functions": false,
         "variable-name": false,
-        "prefer-const": true,
+        "prefer-const": false,
         "no-shadowed-variable": false,
         "no-unused-expression": false,
         "no-trailing-whitespace": false,

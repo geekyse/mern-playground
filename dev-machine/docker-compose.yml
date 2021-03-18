@@ -1,10 +1,10 @@
-version: "3.1"
+version: "3.2"
 
 services:
 
   mongodb:
     image: 'mongo'
-    container_name: 'app-mongo'
+    container_name: 'EC-Mongo'
     environment:
       MONGO_INITDB_ROOT_DATABASE: localapp
       MONGO_INITDB_ROOT_USERNAME: root
@@ -15,42 +15,53 @@ services:
     ports:
       - "27117:27017"
     restart: always
+    networks:
+      - ec-proxy
 
-#  mysql:
-#    image: mysql:5.7
-#    volumes:
-#      - db_data:/var/lib/mysql
-#    restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: rootpassword
-#      MYSQL_DATABASE: app
-#      MYSQL_USER: user
-#      MYSQL_PASSWORD: password
-#    ports:
-#      - 3306:3306
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
+    container_name: 'EC-Elasticsearch'
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - ec-proxy
 
-#  rabbitmq:
-#    container_name: rabbitmq
-#    image: "rabbitmq:3-management"
-#    hostname: "rabbitmq"
-#    environment:
-#      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
-#      RABBITMQ_DEFAULT_USER: "user"
-#      RABBITMQ_DEFAULT_PASS: "pass"
-#      RABBITMQ_DEFAULT_VHOST: "/"
-#    ports:
-#      - "15672:15672"
-#      - "5672:5672"
-#    restart: always
+  rabbitmq:
+    container_name: 'EC-RabbitMQ'
+    image: "rabbitmq:3-management"
+    hostname: "rabbitmq"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "user"
+      RABBITMQ_DEFAULT_PASS: "pass"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    restart: always
+    networks:
+      - ec-proxy
 
-#  app:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    environment:
-#      ENV_NAME: dev
-#    ports:
-#      - 7001:7001
 
 volumes:
   db_data: { }
+  data01:
+    driver: local
+
+networks:
+  ec-proxy:
+    external:
+      name: ec_network

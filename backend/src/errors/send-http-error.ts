@@ -1,9 +1,9 @@
 import { NextFunction, Request } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { HttpError } from './index';
 
+// @todo check this code and revamp
 export function sendHttpErrorModule(req: Request, res: any, next: NextFunction): void {
-  res.sendHttpError = (error: HttpError): void => {
+  res.sendHttpError = (error: Error, message: string): void => {
     res.status(error.status || StatusCodes.INTERNAL_SERVER_ERROR);
     res.json({
       status: error.status,

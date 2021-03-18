@@ -1,20 +1,14 @@
 import { Router } from 'express';
 import { userRoutes } from './user/routes';
 import { customerRoutes } from './customer/routes';
+import { isAuthorizedAdmin } from '../../util/request';
+import { catchAsyncErrors } from '../../util/router';
+import { toCsv } from './customer/export';
 
 const routes: Router = Router();
 
-declare namespace Express {
-  export interface Request {
-    tenant?: string
-  }
-}
-routes.use((req, res, next) => {
-  req.tenant = 'tenant-X'
-  next()
-})
-
 routes.use('/system/user', userRoutes);
 routes.use('/system/customer', customerRoutes);
+routes.post('/export',isAuthorizedAdmin, catchAsyncErrors(toCsv));
 
 export { routes as allRoutes };

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React, {useState} from 'react'
 import {FiX} from 'react-icons/fi'
 

@@ -1,3 +1,4 @@
+import React from 'react';
 
 const Section = ({title, description, right = null, children}) => {
   return (

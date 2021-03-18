@@ -27,10 +27,7 @@ export const generateRandomSlugString = () => {
 export const Slug = (str: string) => {
     str = str.replace(/[^a-zA-Z ]/g, ' ');
     str = str.substring(0, 50);
-    return slugify(str, {
-        lower: true,
-        strict: false,
-    });
+    return slugify(str, { lower: true, strict: false});
 };
 
 export const Summarize = (str: string, length: number) => {

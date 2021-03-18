@@ -6,11 +6,14 @@ import { useRouter } from 'next/router';
 
 export default function AccountSettings(props) {
   let { user } = props;
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const router = useRouter();
+  const axiosConfig = getConfig(router);
+
   const onSubmit = async (values) => {
-    await axiosInstance.put(`/system/user/${user._id}`, values,getConfig(router))
+    await axiosInstance.put(`/system/user/${user._id}`, values, axiosConfig)
       .then(() => {
+        setError('Data Updates Successfully');
         router.push(`/profile/`);
       }).catch(error => {
         setError(error.response.data.message);
@@ -19,11 +22,11 @@ export default function AccountSettings(props) {
 
   let items = [
     {
-      label: 'User name',
+      label: 'User name (no\'t updateable)',
       name: 'userName',
-      value: user.userName,
       type: 'text',
       placeholder: user.userName,
+
     },
     {
       label: 'Bio',
@@ -84,6 +87,7 @@ export default function AccountSettings(props) {
   return (
     <>
       <div className="flex flex-col">
+
         {error && (
           <div className="w-full mb-4">
             <Alert

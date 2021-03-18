@@ -1,5 +1,5 @@
 import {body} from 'express-validator';
-import {comparePasswrds} from "../../../util/string";
+import {comparePasswords} from "../../../util/string";
 import {ServerError, ValidationError} from "../../../util/request";
 import {Customer} from "../../../models/Customer";
 import {BaseValidationType} from "../../../types/validators";
@@ -20,7 +20,7 @@ export async function loginAction(req: any, res: any): Promise<void> {
     const {body} = req;
 
     let user = await Customer.findOne({email: body.email});
-    if (!user || !comparePasswrds(body.password, user.password)) {
+    if (!user || !comparePasswords(body.password, user.password)) {
         res.status(400).json(ValidationError('password', 'Invalid email or password'));
         return;
     }

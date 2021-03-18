@@ -6,9 +6,9 @@ import { ValidationError } from '../../../util/request';
 import { getUserById } from '../../../models/user-helpers';
 
 export const updateValidator: BaseValidationType = [
-  body('userName').optional().isString().trim().escape(),
-  body('firstName').optional().isString().trim().escape(),
-  body('lastName').optional().isString(),
+  body('userName').optional().isString().trim().escape().notEmpty(),
+  body('firstName').optional().isString().trim().escape().notEmpty(),
+  body('lastName').optional().isString().notEmpty(),
   body('bio').optional().isString(),
   body('address').optional().isString(),
   body('city').optional().isString(),
@@ -20,13 +20,11 @@ export const updateValidator: BaseValidationType = [
 ];
 
 export async function update(req: any, res: any): Promise<void> {
-
   const { body } = req;
 
   const user = await getUserById(req.params.id);
-  if (!user) {
-    return res.status(400).json(ValidationError('user', 'This is user '));
-  }
+
+  if (!user) return res.status(400).json(ValidationError('user', 'This is user '));
 
   // check if another user using this email
   if (user.email != body.email) {
@@ -40,11 +38,10 @@ export async function update(req: any, res: any): Promise<void> {
     user[key] = body.hasOwnProperty(key) ? body[key] : user[key];
   });
 
-  try {
-    const saveUser = await user.save();
-    res.json(saveUser);
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ 'error': e.message });
-  }
+  await user.save().then(response => {
+    res.json(response);
+  }).catch((error) => {
+    return res.status(400).json(ValidationError('Update User: ', error.message));
+  });
+
 }

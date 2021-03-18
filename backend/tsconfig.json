@@ -12,8 +12,8 @@
     "noImplicitAny": false,
     "noEmit": false,                          /* Do not emit outputs. */
     "moduleResolution": "node",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
-    "sourceMap": true,                        /* Generates corresponding '.map' file. */
-    "outDir": "./dist",                      /* Redirect output structure to the directory. */
+    "sourceMap": false,                        /* Generates corresponding '.map' file. */
+    "outDir": "dist",                      /* Redirect output structure to the directory. */
     "removeComments": true,                   /* Do not emit comments to output. */
     "baseUrl": ".",                           /* Base directory to resolve non-absolute module names. */
     "types": [

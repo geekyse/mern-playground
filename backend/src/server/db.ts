@@ -10,7 +10,7 @@ export const dbConnection = async () => {
     return connection;
   }
   mongoose.plugin(slug);
-  connection = await mongoose.connect('mongodb://root:mongo@localhost:27117/e-commerce?authSource=admin', {
+  connection = await mongoose.connect(process.env.DB_CONNECTION_LOCAL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
