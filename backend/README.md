@@ -2,7 +2,7 @@
 
 #### tech stack
 
-expressJs
+* expressJs
 Nodejs
 Typescript 
 reactjs

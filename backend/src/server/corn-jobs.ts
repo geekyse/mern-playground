@@ -9,6 +9,6 @@ export const setupCronJobs = async () => {
    //                   │ │ │ ┌───────────── month (1 - 12)
    //                   │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday;
    //                   │ │ │ │ │                                   7 is also Sunday on some systems)
-  let job = new CronJob('* * * * * *', () => exportMatchersToCSV(), null, true);
+  let job = new CronJob('30 * * * * *', () => exportMatchersToCSV(), null, true);
   job.start();
 };

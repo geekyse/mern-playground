@@ -13,7 +13,6 @@ const FormValidation = ({ items, onSubmit, alerts }) => {
     item['ref'] = register(item['error']);
     return item;
   });
-  console.log("-------",items,"-------")
   return (
     <form
       onSubmit={handleSubmit(onSubmitFn)}

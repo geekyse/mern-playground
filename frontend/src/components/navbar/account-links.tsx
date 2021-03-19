@@ -31,7 +31,7 @@ const AccountLinks = () => {
         },
 
         {
-            url: '/pages/logout',
+            url: '/logout',
             icon: <FiLogIn size={18} className="stroke-current"/>,
             name: 'Logout',
             badge: null

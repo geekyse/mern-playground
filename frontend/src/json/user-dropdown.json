@@ -38,7 +38,7 @@
     "badgeColor": false
   },
   {
-    "url": "/pages/logout",
+    "url": "/logout",
     "icon": "icon-power",
     "iconColor": "default",
     "name": "Logout",

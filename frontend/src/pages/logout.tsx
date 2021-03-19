@@ -1,17 +1,19 @@
-import {useRouter} from "next/router";
-import {useEffect} from "react";
-import {logout} from "../util/auth";
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { logoutAdmin } from '../util/auth';
+// import { axiosInstance, getConfig } from '../util/axios';
 
 
-const Logout = () => {
+const Logout = async () => {
+  const router = useRouter();
+  //delete session from mongo
+  // const axiosConfig = getConfig(router);
+  // axiosInstance.post(`/system/user/session`, '', axiosConfig);
 
-    logout();
-    const router = useRouter();
-    useEffect(() => {
-        router.push('/login');
-    }, [])
+  logoutAdmin()
 
+  useEffect(() => {router.push('/login')}, [router]);
 
-    return null;
-}
+  return null;
+};
 export default Logout;
