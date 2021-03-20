@@ -18,26 +18,26 @@ services:
     networks:
       - ec-proxy
 
-  es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-    container_name: 'EC-Elasticsearch'
-    environment:
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es02,es03
-      - cluster.initial_master_nodes=es01
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - data01:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-    networks:
-      - ec-proxy
+  #  es01:
+  #    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
+  #    container_name: 'EC-Elasticsearch'
+  #    environment:
+  #      - node.name=es01
+  #      - cluster.name=es-docker-cluster
+  #      - discovery.seed_hosts=es02,es03
+  #      - cluster.initial_master_nodes=es01
+  #      - bootstrap.memory_lock=true
+  #      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #    ulimits:
+  #      memlock:
+  #        soft: -1
+  #        hard: -1
+  #    volumes:
+  #      - data01:/usr/share/elasticsearch/data
+  #    ports:
+  #      - 9200:9200
+  #    networks:
+  #      - ec-proxy
 
   rabbitmq:
     container_name: 'EC-RabbitMQ'
@@ -54,6 +54,15 @@ services:
     restart: always
     networks:
       - ec-proxy
+
+  redis:
+    container_name: EC-Redis
+    image: redis
+    volumes:
+      - ./data/config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    restart: always
 
 
 volumes:

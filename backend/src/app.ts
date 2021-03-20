@@ -6,15 +6,14 @@ import { allRoutes } from './modules/system/routes';
 import cookieParser from 'cookie-parser';
 import { HttpError } from './errors';
 import { StatusCodes } from 'http-status-codes';
-import { dbConnection } from './server/db';
 import { AuthenticateAdmin } from './util/request';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import { sendHttpErrorModule } from './errors/send-http-error';
 import { setupCronJobs } from './server/corn-jobs';
+import { dbConnection } from './server/db';
 
-
-async function app() {
+export async function app() {
   // initialize configuration
   dotenv.config();
   await dbConnection();
@@ -36,7 +35,7 @@ const initErrorHandler = (app: Application) => {
   });
 };
 
-const createApp = async () => {
+export const createApp = async () => {
   const app = express();
   app.use(cookieParser());
   // https://github.com/expressjs/morgan#readme
@@ -55,5 +54,3 @@ const createApp = async () => {
   app.listen('8080', () => console.log(`App listening at http://localhost:8080`));
   return app;
 };
-
-export { createApp, app };

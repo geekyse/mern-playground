@@ -1,16 +1,24 @@
 import mongoose from 'mongoose';
 import slug from 'mongoose-slug-updater';
+import Redis, { RedisOptions } from 'ioredis';
 
+let redisConn = null;
+let mongoConn;
 
 export const dbConnection = async () => {
-  // singleton design pattern
-  let connection;
+  await mongoConnection();
+  await redisConnection();
+};
 
-  if (connection) {
-    return connection;
+const mongoConnection = async () => {
+  // singleton design pattern
+
+  if (mongoConn) {
+    return mongoConn;
   }
   mongoose.plugin(slug);
-  connection = await mongoose.connect(process.env.DB_CONNECTION_LOCAL, {
+  // @ts-ignore
+  mongoConn = await mongoose.connect(process.env.DB_CONNECTION_LOCAL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -30,5 +38,44 @@ export const dbConnection = async () => {
   db.once('open', () => {
     console.log('we\'re connected!');
   });
-  return connection;
+  return mongoConn;
+};
+
+
+const redisConnection = async () => {
+  // singleton design pattern
+
+  if (redisConnection !== null) {
+    return redisConnection;
+  }
+  const options: RedisOptions = {
+    keyPrefix: process.env.REDIS_PREFIX,
+    // @ts-ignore
+    connectTimeout: parseInt(process.env.REDIS_TIMEOUT, 10),
+    // @ts-ignore
+    maxRetriesPerRequest: parseInt(process.env.REDIS_MAX_RETRIES, 10),
+  };
+
+  // @ts-ignore
+  const redisURI: string = process.env.REDIS_URI;
+  console.log(`redisURI: ${redisURI}`);
+  const redis: Redis.Redis = new Redis(redisURI, options);
+
+  redis.on('error', (error: Error): void => {
+    console.error(`Redis :: connection ${JSON.stringify(error)}`);
+  });
+
+  redis.on('connect', (): void => {
+    console.info('Redis :: connected');
+  });
+
+  redis.on('reconnecting', (): void => {
+    console.warn('Redis :: reconnecting');
+  });
+
+  redis.on('end', (): void => {
+    console.warn('Redis :: disconnected');
+  });
+  redisConn = redis;
+  return redisConnection;
 };

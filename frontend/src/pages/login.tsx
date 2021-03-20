@@ -12,6 +12,9 @@ const Index = () => {
     shallowEqual,
   );
   let { name } = { ...config };
+
+  const element = React.createElement('div', {title: 'Outer div'}, React.createElement('h1', null, 'Hello World!'));
+
   return (
     <>
       <div className="w-full flex flex-row h-screen overflow-hidden">
