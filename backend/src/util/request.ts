@@ -2,6 +2,7 @@ import { echo } from './debug';
 import { HttpError } from '../errors';
 import { UserSession } from '../models/UserSession';
 import { User } from '../models/User';
+import { redisConnection } from '../server/db';
 
 
 export const generateFilterCondition = async (filter) => {
@@ -124,12 +125,19 @@ export const AuthenticateAdmin = async (req, res, next) => {
 
   }
 
-  const session = await UserSession.findOne({ token });
+  // get admin_token from redis
+  const session = await redisConnection().get('admin_session_key', function(err, result) {
+    if (err) console.error('Error getting session from redis :', err);
+
+    return result;
+  });
 
   if (session) {
     console.log('AuthenticateAdmin: session found');
 
-    const user = await User.findOne({ _id: session.userId });
+    const userId = JSON.parse(session).userId;
+    const user = await User.findOne({ _id: userId });
+
     if (user) {
       echo('AuthenticateAdmin: user found');
 

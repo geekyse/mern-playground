@@ -1,5 +1,4 @@
 import Widget1 from '../components/dashboard/widget-1'
-import SectionTitle from '../components/dashboard/section-title'
 import {FiActivity, FiUsers, FiExternalLink, FiClock} from 'react-icons/fi'
 import React from "react";
 import Datatable from "../components/datatable";
@@ -41,7 +40,6 @@ const Index = (props) => {
   return (
     <>
 
-        <SectionTitle title="Overview" subtitle="Dashboard"/>
         <div className="flex flex-col lg:flex-row w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
             {/*widget*/}
             <div className="w-full lg:w-1/4">

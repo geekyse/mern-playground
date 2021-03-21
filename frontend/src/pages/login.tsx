@@ -1,19 +1,9 @@
-import { useSelector, shallowEqual } from 'react-redux';
 import Link from 'next/link';
 import Login from '../components/forms/login-form';
 import SocialMedia from '../components/login-3/social-media';
 import React from 'react';
 
 const Index = () => {
-  const { config } = useSelector(
-    (state) => ({
-      config: state.config,
-    }),
-    shallowEqual,
-  );
-  let { name } = { ...config };
-
-  const element = React.createElement('div', {title: 'Outer div'}, React.createElement('h1', null, 'Hello World!'));
 
   return (
     <>

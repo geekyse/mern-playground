@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import { UserSession } from './UserSession';
 import { generateRandomString, hashPassword } from '../util/string';
+import { redisConnection } from '../server/db';
 
 interface IUser extends Document {
   userName: string;
@@ -60,14 +61,19 @@ UserSchema.methods.unsafeFields = function() {
 };
 
 UserSchema.methods.generateSession = async function() {
-// create session
   const Session = new UserSession();
   Session.email = this.email;
   Session.token = generateRandomString(20);
   Session.userId = this.id;
 
   try {
-    return await Session.save();
+
+    // @todo handle set session to redis
+
+    const redisSessionCacheKey: string = 'admin_session_key';
+    await redisConnection().set(redisSessionCacheKey, JSON.stringify(Session), 'EX', process.env.REDIS_TTL_SPECS_ATTRIBUTES);
+
+    return Session;
   } catch (error) {
     console.log(error, 'error while creating user session !');
     return null;

@@ -16,7 +16,7 @@ const Login = ({ message = '' }) => {
     axiosInstance.post(`/system/user/login`, values, axiosConfig)
       .then(response => {
         loginAdmin(response.data.token);
-        router.push(`/`);
+        router.push(`/dashboard`);
       }).catch(error => {
         setError(error.response.data.message);
       },
