@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Widget1 = ({title, description, right = null}) => {
+const Widget1 = ({title, description, right }) => {
   return (
     <div className="widget w-full p-4 rounded-lg bg-white border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
       <div className="flex flex-row items-center justify-between">
