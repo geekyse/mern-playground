@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { loginAdmin } from '../../util/auth';
 import { axiosInstance, getConfig } from '../../util/axios';
 
-const Login = ({ message = '' }) => {
+const Login = () => {
 
   const [error, setError] = useState(null);
 
@@ -49,24 +49,18 @@ const Login = ({ message = '' }) => {
       placeholder: 'Enter your password',
     },
   ];
+  // @ts-ignore
   return (
     <>
-
-    <div className="flex flex-col">
-      {error && (
-        <div className="w-full mb-4">
-          <Alert
-            color="bg-transparent border-red-500 text-red-500"
-            borderLeft
-            raised>
-            {error}
-          </Alert>
-        </div>
-      )}
-      <Validation items={items} onSubmit={onSubmit} />
-    </div>
+      <div className="flex flex-col">
+        {error && (
+          <div className="w-full mb-4">
+            <Alert color="bg-transparent border-red-500 text-red-500" borderLeft raised > {error} </Alert>
+          </div>
+        )}
+        <Validation items={items} onSubmit={onSubmit} alerts={error} />
+      </div>
     </>
-
   );
 };
 

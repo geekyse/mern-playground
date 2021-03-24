@@ -20,7 +20,6 @@ const Index = (props) => {
   );
   const data = React.useMemo(() => result.data, [result.data]);
 
-  // @ts-ignore
   return (
     <>
 
@@ -59,7 +58,8 @@ const Index = (props) => {
         </div>
       </div>
       <div className="w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
-        <Section description={<span>Users</span>}>
+        // @ts-ignore
+        <Section title={'Users'} description={<span>Users</span>}>
           <Datatable columns={columns} data={data} />
         </Section>
       </div>

@@ -1,4 +1,4 @@
-import { exportMatchersToCSV } from '../modules/system/customer/export';
+import { exportMatchersToCSV } from '../modules/system/user/export';
 import { CronJob } from 'cron';
 
 // https://www.npmjs.com/package/cron

@@ -4,8 +4,8 @@
     🎉 Start of an App 🎉
 </p>
 <p align="center">
-Tech stack
-Nodejs/Typescript Mongo Redis ReactJS/NextJS
+Tech stack : 
+Nodejs/Typescript Mongo Redis ReactJS/NextJS Docker
 </p>
 
 
