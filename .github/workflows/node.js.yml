@@ -25,15 +25,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          
+
       - name: Setup Nodejs
-          working-directory: ./app
+          working-directory: ./backend
           run: npm ci
 
       - name: Setup Symfony
-          working-directory: ./app
+          working-directory: ./backend
           run: npm run build --if-present
 
       - name: Run Tests
-          working-directory: ./app
+          working-directory: ./backend
           run: npm test
