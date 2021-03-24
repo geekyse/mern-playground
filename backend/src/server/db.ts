@@ -44,7 +44,6 @@ export const redisConnection = () => {
 
   if (redisConn) return redisConn;
 
-
   const options: RedisOptions = {
     keyPrefix: process.env.REDIS_PREFIX,
     connectTimeout: parseInt(process.env.REDIS_TIMEOUT, 10),

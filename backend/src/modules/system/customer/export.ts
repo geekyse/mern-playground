@@ -25,7 +25,6 @@ export async function toCsv(req: any, res: any) {
 
       // await publish(ch, publishQueueName, [Matchers]);
 
-
       let data = [{
         'name': 's21 ultra 256',
         'imei': 324123412341234123,

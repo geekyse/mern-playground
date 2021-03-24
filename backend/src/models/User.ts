@@ -62,6 +62,7 @@ UserSchema.methods.unsafeFields = function() {
 
 UserSchema.methods.generateSession = async function() {
   const Session = new UserSession();
+  // @ts-ignore
   Session.email = this.email;
   Session.token = generateRandomString(20);
   Session.userId = this.id;

@@ -57,7 +57,7 @@ export async function update(req: any, res: any): Promise<void> {
     }
 
     Object.keys(body).map((key:string) => {
-        row[key] = body.hasOwnProperty(key) ? body[key] : row[key];
+        row[key] = body.prototype.hasOwnProperty.call(key) ? body[key] : row[key];
     });
 
 
