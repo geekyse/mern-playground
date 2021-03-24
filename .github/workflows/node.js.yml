@@ -13,8 +13,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      working-directory : ./backend
+    defaults:
+      run:
+        shell: bash
+        working-directory: backend
 
     strategy:
       matrix:
