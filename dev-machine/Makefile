@@ -1,24 +1,48 @@
-BIN_DOCKER = 'docker'
-BIN_DOCKER_COMPOSE = 'docker-compose'
+DOCKER_COMPOSE := docker-compose
+DOCKER_COMPOSE_FILE := docker-compose.yml
 
-COMPOSE_FILE_BUILD = 'compose-build.yml'
-COMPOSE_FILE_UP = 'docker-compose.yml'
+CONTAINER_MONGODB = EC-Mongo
+CONTAINER_RABBITMQ = EC-RabbitMQ
+CONTAINER_REDIS = EC-Redis
 
-clear_all: clear_containers clear_images
+up:
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up $(c)
 
-export COMPOSE_PROJECT_NAME = machine
+start:
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up -d $(c)
 
-clear_containers:
-	$(BIN_DOCKER) stop `$(BIN_DOCKER) ps -a -q` && $(BIN_DOCKER) rm `$(BIN_DOCKER) ps -a -q`
+stop:
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop $(c)
 
-clear_images:
-	$(BIN_DOCKER) rmi -f `$(BIN_DOCKER) images -q`
+restart:
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) stop $(c)
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up $(c) -d
 
-up_base:
-	$(BIN_DOCKER_COMPOSE) -f $(COMPOSE_FILE_UP)  up
+status:
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) ps
 
-down:
-	$(BIN_DOCKER) stop `$(BIN_DOCKER) ps -a -q`
+## logs
+mongo-logs:
+	docker logs $(CONTAINER_MONGODB) -f
+
+redis-logs:
+	docker logs $(CONTAINER_REDIS) -f
+
+rabbit-logs:
+	docker logs $(CONTAINER_RABBITMQ) -f
 
 
+## connect to container
+conn-mongo:
+	docker exec -it $(CONTAINER_MONGODB)  bash
 
+conn-redis:
+	docker exec -it $(CONTAINER_REDIS)  bash
+
+conn-rabbit:
+	docker exec -it $(CONTAINER_RABBITMQ)  bash
+
+ps: status
+
+clean: confirm ## Clean all data
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down
