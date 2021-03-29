@@ -14,6 +14,7 @@ const FormValidation = ({ items, onSubmit, alerts }) => {
     return item;
   });
   return (
+    <div>
     <form
       onSubmit={handleSubmit(onSubmitFn)}
       className="form flex flex-wrap w-full">
@@ -143,6 +144,7 @@ const FormValidation = ({ items, onSubmit, alerts }) => {
                   name={item.name}
                   type={item.type}
                   value={item.value}
+                  defaultValue={item.defaultValue}
                   className={`form-input ${
                     errors[item.name] ? 'border-red-500' : ''
                   }`}
@@ -161,6 +163,7 @@ const FormValidation = ({ items, onSubmit, alerts }) => {
         className="btn btn-default bg-blue-500 hover:bg-blue-600 text-white btn-rounded"
       />
     </form>
+      </div>
   );
 };
 export default FormValidation;

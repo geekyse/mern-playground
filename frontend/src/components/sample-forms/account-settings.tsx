@@ -9,7 +9,6 @@ export default function AccountSettings(props) {
   const [error, setError] = useState('');
   const router = useRouter();
   const axiosConfig = getConfig(router);
-
   const onSubmit = async (values) => {
     await axiosInstance.put(`/system/user/${user._id}`, values, axiosConfig)
       .then(() => {
@@ -25,62 +24,62 @@ export default function AccountSettings(props) {
       label: 'User name (no\'t updateable)',
       name: 'userName',
       type: 'text',
-      placeholder: user.userName,
+      defaultValue:user.userName,
 
     },
     {
       label: 'Bio',
       name: 'bio',
       type: 'text',
-      placeholder: user.bio,
+      defaultValue:user.bio,
     },
     {
       label: 'First name',
       name: 'firstName',
       type: 'text',
-      placeholder: user.firstName,
+      defaultValue:user.firstName,
     },
     {
       label: 'Last name',
       name: 'lastName',
       type: 'text',
-      placeholder: user.lastName,
+      defaultValue:user.lastName,
     },
     {
       label: 'Address',
       name: 'address',
       type: 'text',
-      placeholder: user.address,
+      defaultValue:user.address,
     },
     {
       label: 'City',
       name: 'city',
       type: 'text',
-      placeholder: user.city,
+      defaultValue:user.city,
     },
     {
       label: 'Country',
       name: 'country',
       type: 'text',
-      placeholder: user.country,
+      defaultValue:user.country,
     },
     {
       label: 'Education',
       name: 'education',
       type: 'text',
-      placeholder: user.education,
+      defaultValue:user.education,
     },
     {
       label: 'Work',
       name: 'work',
       type: 'text',
-      placeholder: user.work,
+      defaultValue:user.work,
     },
     {
       label: 'About',
       name: 'about',
       type: 'text',
-      placeholder: user.about,
+      defaultValue:user.about,
     },
 
   ];
@@ -98,7 +97,7 @@ export default function AccountSettings(props) {
             </Alert>
           </div>
         )}
-        <Validation items={items} onSubmit={onSubmit} />
+        <Validation items={items} onSubmit={onSubmit} alerts={error} />
       </div>
     </>
   );

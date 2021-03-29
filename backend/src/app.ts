@@ -40,6 +40,7 @@ export const createApp = async () => {
   app.use(cookieParser());
   // https://github.com/expressjs/morgan#readme
   app.use(morgan('combined'));
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
   // https://github.com/expressjs/cors#readme
   app.use(cors());
   // https://github.com/expressjs/compression#readme

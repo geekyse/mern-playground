@@ -6,14 +6,8 @@ import { ServerError, ValidationError } from '../../../util/request';
 import { comparePasswords, format } from '../../../util/string';
 
 export const loginValidator: BaseValidationType = [
-  body('email')
-    .notEmpty()
-    .isEmail()
-    .normalizeEmail()
-    .isString(),
-  body('password')
-    .notEmpty()
-    .isString(),
+  body('email').notEmpty().isEmail().normalizeEmail().isString(),
+  body('password').notEmpty().isString(),
   reqValidationResult,
 ];
 

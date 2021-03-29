@@ -11,7 +11,8 @@ const EmailPreferences = (props) => {
       error: {required: 'Please enter a valid email'},
       name: 'email',
       type: 'email',
-      placeholder: user.email
+      defaultValue:user.email,
+
     },
     {
       label: 'New email',
@@ -34,7 +35,7 @@ const EmailPreferences = (props) => {
             </Alert>
           </div>
         )}
-        <Validation items={items} onSubmit={onSubmit} />
+        <Validation items={items} onSubmit={onSubmit} alerts={''}/>
       </div>
     </>
   )

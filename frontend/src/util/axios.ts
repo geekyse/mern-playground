@@ -6,7 +6,9 @@ export const axiosInstance = axios.create({
     timeout: 15000,
 });
 
+
 export const getConfig = (ctx: any) => {
+
     const {token, admin_token} = nextCookie(ctx);
     let headers = {};
     if (token) {

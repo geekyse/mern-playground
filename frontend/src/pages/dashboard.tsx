@@ -1,10 +1,10 @@
 import Widget1 from '../components/dashboard/widget-1';
 import { FiActivity, FiUsers, FiExternalLink, FiClock } from 'react-icons/fi';
-import React from 'react';
 import Datatable from '../components/datatable';
 import { axiosInstance, getConfig } from '../util/axios';
 import Section from '../components/dashboard/section';
 import { withAdminAuthSync } from '../util/auth';
+import React from 'react';
 
 const Index = (props) => {
   let result = props;
@@ -58,7 +58,6 @@ const Index = (props) => {
         </div>
       </div>
       <div className="w-full lg:space-x-2 space-y-2 lg:space-y-0 mb-2 lg:mb-4">
-        // @ts-ignore
         <Section title={'Users'} description={<span>Users</span>}>
           <Datatable columns={columns} data={data} />
         </Section>

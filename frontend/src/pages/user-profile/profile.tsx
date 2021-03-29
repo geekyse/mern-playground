@@ -7,6 +7,7 @@ import Widget from '../../components/widget';
 import Breadcrumb from '../../components/breadcrumbs';
 import SectionTitle from '../../components/section-title';
 import { UnderlinedTabs } from '../../components/tabs';
+import { axiosInstance, getConfig } from '../../util/axios';
 
 export default function Profile(props) {
   let { user } = props;
