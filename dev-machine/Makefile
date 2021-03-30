@@ -1,6 +1,5 @@
 DOCKER_COMPOSE := docker-compose
 DOCKER_COMPOSE_FILE := docker-compose.yml
-
 CONTAINER_MONGODB = EC-Mongo
 CONTAINER_RABBITMQ = EC-RabbitMQ
 CONTAINER_REDIS = EC-Redis
