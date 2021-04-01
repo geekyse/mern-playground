@@ -104,7 +104,7 @@ export const withAdminAuthSync = (WrappedComponent, requireAuth = true) => {
     return <WrappedComponent {...props} />;
   };
 
-  Wrapper.getStaticProps = async ctx => {
+  Wrapper.getInitialProps = async ctx => {
 
     const { admin_token } = nextCookie(ctx);
 
@@ -132,7 +132,7 @@ export const withAdminAuthSync = (WrappedComponent, requireAuth = true) => {
     }
 
 
-    const componentProps = WrappedComponent.getInitialProps && (await WrappedComponent.getStaticProps(ctx));
+    const componentProps = WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
 
     return { ...componentProps, token: admin_token, isLogged: isLogged };
   };

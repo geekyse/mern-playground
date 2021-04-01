@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { userRoutes } from './user/routes';
 import { isAuthorizedAdmin } from '../../util/request';
 import { catchAsyncErrors } from '../../util/router';
-import { toCsv } from './user/export';
+import { toCsv } from '../../server/data';
 
 const routes: Router = Router();
 

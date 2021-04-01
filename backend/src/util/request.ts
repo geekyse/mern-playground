@@ -11,7 +11,7 @@ export const generateFilterCondition = async (filter) => {
     return whereObject;
   }
 
-  Object.keys(filter).forEach((key) => (filter[key] == null) && delete filter[key]);
+  Object.keys(filter).forEach((key:string) => (filter[key] == null) && delete filter[key]);
   Object.keys(filter).map(key => {
     // check for boolean
     if (typeof filter[key] == 'number' || filter[key] == 'true' || filter[key] == 'false') {

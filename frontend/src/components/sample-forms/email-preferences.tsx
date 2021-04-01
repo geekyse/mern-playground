@@ -11,7 +11,7 @@ const EmailPreferences = (props) => {
       error: {required: 'Please enter a valid email'},
       name: 'email',
       type: 'email',
-      defaultValue:user.email,
+      defaultValue:'userName',
 
     },
     {

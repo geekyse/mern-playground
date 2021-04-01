@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 
 export default function AccountSettings(props) {
   let { user } = props;
+  console.log(props,"--------------")
   const [error, setError] = useState('');
   const router = useRouter();
   const axiosConfig = getConfig(router);
@@ -24,62 +25,62 @@ export default function AccountSettings(props) {
       label: 'User name (no\'t updateable)',
       name: 'userName',
       type: 'text',
-      defaultValue:user.userName,
+      defaultValue:'userName',
 
     },
     {
       label: 'Bio',
       name: 'bio',
       type: 'text',
-      defaultValue:user.bio,
+      defaultValue:'userName',
     },
     {
       label: 'First name',
       name: 'firstName',
       type: 'text',
-      defaultValue:user.firstName,
+      defaultValue:'userName',
     },
     {
       label: 'Last name',
       name: 'lastName',
       type: 'text',
-      defaultValue:user.lastName,
+      defaultValue:'userName',
     },
     {
       label: 'Address',
       name: 'address',
       type: 'text',
-      defaultValue:user.address,
+      defaultValue:'userName',
     },
     {
       label: 'City',
       name: 'city',
       type: 'text',
-      defaultValue:user.city,
+      defaultValue:'userName',
     },
     {
       label: 'Country',
       name: 'country',
       type: 'text',
-      defaultValue:user.country,
+      defaultValue:'userName',
     },
     {
       label: 'Education',
       name: 'education',
       type: 'text',
-      defaultValue:user.education,
+      defaultValue:'userName',
     },
     {
       label: 'Work',
       name: 'work',
       type: 'text',
-      defaultValue:user.work,
+      defaultValue:'userName',
     },
     {
       label: 'About',
       name: 'about',
       type: 'text',
-      defaultValue:user.about,
+      defaultValue:'userName',
     },
 
   ];

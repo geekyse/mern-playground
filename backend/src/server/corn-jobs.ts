@@ -1,5 +1,5 @@
-import { exportMatchersToCSV } from '../modules/system/user/export';
 import { CronJob } from 'cron';
+import { exportMatchersToCSV } from './data';
 
 // https://www.npmjs.com/package/cron
 export const setupCronJobs = async () => {
