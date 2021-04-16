@@ -14,7 +14,7 @@ function MyProfile(props) {
 
 MyProfile.getInitialProps = async function(router: any) {
   let response = await axiosInstance.get(`/system/user/profile`, getConfig(router));
-  console.log(response,"--------")
   return { user: response.data };
 };
+
 export default withAdminAuthSync(MyProfile);

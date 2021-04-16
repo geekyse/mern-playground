@@ -87,7 +87,7 @@ const Datatable = ({columns, data}) => {
                 2
             )
         )
-    }, [selectedRowIds])
+    }, [data, selectedRowIds])
 
     // Render the UI for your table
     return (

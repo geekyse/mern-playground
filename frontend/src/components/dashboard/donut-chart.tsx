@@ -7,6 +7,7 @@ import {
   Cell
 } from 'recharts'
 import {getColor} from '../../functions/colors'
+import React, { Component } from 'react';
 
 const CustomTooltip = ({active, payload, label}) => {
   if (active) {

@@ -1,29 +1,19 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import Validation from '../forms/validation';
 import Alert from '../alerts';
-import { useRouter } from 'next/router';
 import { loginAdmin } from '../../util/auth';
 import { axiosInstance, getConfig } from '../../util/axios';
+import router from 'next/router';
 
-const Login = () => {
+// Class component example
+export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: '' };
+    this.handleLogin = this.handleLogin.bind(this);
+  }
 
-  const [error, setError] = useState(null);
-
-  const router = useRouter();
-  const axiosConfig = getConfig(router);
-
-  const onSubmit = async (values) => {
-    axiosInstance.post(`/system/user/login`, values, axiosConfig)
-      .then(response => {
-        loginAdmin(response.data.token);
-        router.push(`/dashboard`);
-      }).catch(error => {
-        setError(error.response.data.message);
-      },
-    );
-  };
-
-  let items = [
+  items = [
     {
       label: 'Email',
       error: { required: 'Please enter a valid email' },
@@ -49,20 +39,29 @@ const Login = () => {
       placeholder: 'Enter your password',
     },
   ];
-  // @ts-ignore
-  return (
-    <>
-      <div className="flex flex-col">
-        {error && (
-          <div className="w-full mb-4">
-            <Alert color="bg-transparent border-red-500 text-red-500" borderLeft raised > {error} </Alert>
+
+  handleLogin(values) {
+    const axiosConfig = getConfig(router);
+    axiosInstance.post(`/system/user/login`, values, axiosConfig)
+      .then(response => {
+        loginAdmin(response.data.token);
+        router.push(`/dashboard`);
+      })
+      .catch(() => this.setState({ error: 'Wrong email or password..!' }));
+  };
+
+  render() {
+    return (
+      <div className='flex flex-col'>
+        {this.state['error'] && (
+          <div className='w-full mb-4'>
+            <Alert color='bg-transparent border-red-500 text-red-500' borderLeft raised>
+              {this.state['error']}
+            </Alert>
           </div>
         )}
-        <Validation items={items} onSubmit={onSubmit} alerts={error} />
+        <Validation items={this.items} onSubmit={this.handleLogin} alerts={this.state['error']} />
       </div>
-    </>
-  );
-};
-
-export default Login;
-
+    );
+  };
+}

@@ -1,106 +1,102 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import Validation from '../forms/validation';
 import Alert from '../alerts';
 import { axiosInstance, getConfig } from '../../util/axios';
-import { useRouter } from 'next/router';
+import router from 'next/router';
 
-export default function AccountSettings(props) {
-  let { user } = props;
-  console.log(props,"--------------")
-  const [error, setError] = useState('');
-  const router = useRouter();
-  const axiosConfig = getConfig(router);
-  const onSubmit = async (values) => {
-    await axiosInstance.put(`/system/user/${user._id}`, values, axiosConfig)
-      .then(() => {
-        setError('Data Updates Successfully');
-        router.push(`/profile/`);
-      }).catch(error => {
-        setError(error.response.data.message);
-      });
-  };
+// Class component example
+export default class AccountSettings extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: '' };
+    this.handleAccountSettings = this.handleAccountSettings.bind(this);
+  }
 
-  let items = [
+  items = [
     {
-      label: 'User name (no\'t updateable)',
+      label: 'User name',
       name: 'userName',
       type: 'text',
-      defaultValue:'userName',
-
+      defaultValue: this.props['user'].userName,
     },
     {
       label: 'Bio',
       name: 'bio',
       type: 'text',
-      defaultValue:'userName',
+      defaultValue: this.props['user'].bio,
     },
     {
       label: 'First name',
       name: 'firstName',
       type: 'text',
-      defaultValue:'userName',
+      defaultValue: this.props['user'].firstName,
     },
     {
       label: 'Last name',
       name: 'lastName',
       type: 'text',
-      defaultValue:'userName',
+      defaultValue: this.props['user'].lastName,
     },
     {
       label: 'Address',
       name: 'address',
       type: 'text',
-      defaultValue:'userName',
+      defaultValue: this.props['user'].address,
     },
     {
       label: 'City',
       name: 'city',
       type: 'text',
-      defaultValue:'userName',
+      defaultValue: this.props['user'].city,
     },
     {
       label: 'Country',
       name: 'country',
       type: 'text',
-      defaultValue:'userName',
+      defaultValue: this.props['user'].country,
     },
     {
       label: 'Education',
       name: 'education',
       type: 'text',
-      defaultValue:'userName',
+      defaultValue: this.props['user'].education,
     },
     {
       label: 'Work',
       name: 'work',
       type: 'text',
-      defaultValue:'userName',
+      defaultValue: this.props['user'].work,
     },
     {
       label: 'About',
       name: 'about',
       type: 'text',
-      defaultValue:'userName',
-    },
+      defaultValue: this.props['user'].about,
+    }];
 
-  ];
-  return (
-    <>
-      <div className="flex flex-col">
+  handleAccountSettings(values) {
+    const axiosConfig = getConfig(router);
+    axiosInstance.put(`/system/user/${this.props['user']._id}`, values, axiosConfig)
+      .then(() => {
+        router.push(`/profile/`);
+      }).catch((err) => {
+      console.log(err);
+      this.setState({ error: 'Wrong email or password..!' });
+    });
+  };
 
-        {error && (
-          <div className="w-full mb-4">
-            <Alert
-              color="bg-transparent border-green-500 text-green-500"
-              borderLeft
-              raised>
-              {error}
+  render() {
+    return (
+      <div className='flex flex-col'>
+        {this.state['error'] && (
+          <div className='w-full mb-4'>
+            <Alert color='bg-transparent border-red-500 text-red-500' borderLeft raised>
+              {this.state['error']}
             </Alert>
           </div>
         )}
-        <Validation items={items} onSubmit={onSubmit} alerts={error} />
+        <Validation items={this.items} onSubmit={this.handleAccountSettings} alerts={this.state['error']} />
       </div>
-    </>
-  );
+    );
+  };
 }
-
