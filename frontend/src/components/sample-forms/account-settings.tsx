@@ -74,7 +74,7 @@ export default class AccountSettings extends Component {
       defaultValue: this.props['user'].about,
     }];
 
-  handleAccountSettings(values) {
+  handleAccountSettings = (values) => {
     const axiosConfig = getConfig(router);
     axiosInstance.put(`/system/user/${this.props['user']._id}`, values, axiosConfig)
       .then(() => {
