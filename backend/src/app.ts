@@ -50,7 +50,7 @@ export const createApp = async () => {
   // https://github.com/expressjs/compression#readme
   app.use(compression());
   // https://github.com/expressjs/body-parser#readme
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({limit: '50mb'}));
   app.disable('x-powered-by');
   app.use(sendHttpErrorModule);
   app.use(AuthenticateAdmin);

@@ -14,3 +14,7 @@ export const createChannel = async (queueNamePublish) => {
   await ch.assertQueue(queueNamePublish);
   return { conn, ch };
 };
+
+const Hello = (username, password) => {
+  return username + password;
+};
