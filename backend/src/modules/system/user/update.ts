@@ -3,7 +3,7 @@ import { reqValidationResult } from '../../../types/req-validation-result';
 import { BaseValidationType } from '../../../types/validators';
 import { User } from '../../../models/User';
 import { ValidationError } from '../../../util/request';
-import { getUserById } from '../../../models/user-helpers';
+import { getUserById } from '../../../models/UserHelpers';
 
 export const updateValidator: BaseValidationType = [
   body('userName').optional().isString().trim().escape().notEmpty(),

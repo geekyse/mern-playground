@@ -28,7 +28,6 @@ const initErrorHandler = (app: Application) => {
     if (error instanceof HttpError) {
       res.sendHttpError(error, error.message);
     } else {
-      console.log(error);
       error = new HttpError(StatusCodes.INTERNAL_SERVER_ERROR);
       res.sendHttpError(error, error.message);
     }

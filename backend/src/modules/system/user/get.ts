@@ -1,7 +1,7 @@
 import { reqValidationResult } from '../../../types/req-validation-result';
 import { BaseValidationType } from '../../../types/validators';
 import { param } from 'express-validator';
-import { getUserById } from '../../../models/user-helpers';
+import { getUserById } from '../../../models/UserHelpers';
 
 export const getValidator: BaseValidationType = [param('id').notEmpty().isString(), reqValidationResult];
 

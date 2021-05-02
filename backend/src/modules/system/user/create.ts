@@ -4,7 +4,7 @@ import { BaseValidationType } from '../../../types/validators';
 import { reqValidationResult } from '../../../types/req-validation-result';
 import { ServerError, ValidationError } from '../../../util/request';
 import { hashPassword } from '../../../util/string';
-import { isExistByEmail, isExistByUsername } from '../../../models/user-helpers';
+import { isExistByEmail, isExistByUsername } from '../../../models/UserHelpers';
 
 export const createValidator: BaseValidationType = [
   body('userName').notEmpty().isString().trim().escape(),
