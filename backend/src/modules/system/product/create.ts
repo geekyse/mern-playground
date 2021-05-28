@@ -4,6 +4,7 @@ import { BaseValidationType } from '../../../types/validators';
 import { reqValidationResult } from '../../../types/req-validation-result';
 import { Product } from '../../../models/Product';
 import { cleanProductUrl } from './helpers';
+import Hash from 'sha1';
 
 export const createValidator: BaseValidationType = [
   body('title').notEmpty().isString().isLength({ min: 1, max: 25 }).trim(),
@@ -18,13 +19,15 @@ export const createValidator: BaseValidationType = [
 
 export async function create(req: any, res: any): Promise<void> {
   const { body } = req;
+
   const productRow = new Product();
   const url = cleanProductUrl(body.category, body.title, productRow.id);
 
   productRow.title = body.title;
   productRow.url = url;
+  productRow.urlHash = Hash(url);
+  productRow.category = body.category;
   productRow.description = body.description;
-  productRow.type = body.type;
   productRow.vendor = body.vendor;
   productRow.brand = body.brand;
   productRow.price = body.price;

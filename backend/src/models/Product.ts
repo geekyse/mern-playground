@@ -1,7 +1,4 @@
-import mongoose, { Document } from 'mongoose';
-import slug from 'mongoose-slug-updater';
-
-mongoose.plugin(slug);
+import mongoose, { Document, Schema } from 'mongoose';
 
 const { Schema } = mongoose;
 
@@ -12,25 +9,20 @@ interface IProduct extends Document {
   description: string;
   vendor: string;
   brand: string;
-  type: string;
   category: string;
   isPublished: boolean;
   price: {
     sellPrice: number,
     costPrice: number,
   },
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-
 const PriceSchema = {
-  sellPrice: {
-    type: Number,
-    required: true,
-  },
-  costPrice: {
-    type: Number,
-    required: false,
-  },
+  sellPrice: { type: Number, required: true },
+  costPrice: { type: Number, required: false },
 };
 
 const ProductSchema = new Schema(
@@ -80,27 +72,7 @@ const ProductSchema = new Schema(
       index: true,
     },
     price: PriceSchema,
-    createdAt: { type: Date, default: Date.now },
-  },
-  { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }, versionKey: false },
-);
-
-// @ts-ignore
-ProductSchema.virtual('id').get(function() {
-  return this._id.toHexString();
-});
-
-// Ensure virtual fields are serialised.
-// @ts-ignore
-ProductSchema.set('toJSON', {
-  virtuals: true,
-});
-
-ProductSchema.set('toObject', {
-  virtuals: true,
-});
-
-ProductSchema.index({ name: 'text', 'description': 'text', 'longDescription': 'text' });
+  }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }, versionKey: false });
 
 
 const Product = mongoose.model<IProduct>('product', ProductSchema);

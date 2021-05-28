@@ -117,27 +117,19 @@ export const Authenticate = async (req, res, next) => {
 
 export const AuthenticateAdmin = async (req, res, next) => {
   const token = req.headers['x-admin-token'] ?? '';
+
   if (!token) {
     console.log('AuthenticateAdmin: no x-admin-token');
     return next();
   } else {
     console.log(`AuthenticateAdmin: x-admin-token: ${token}`);
-
   }
 
-  // get admin_token from redis
-  const session = await redisConnection().get('admin_session_key', function(err, result) {
-    if (err) console.error('Error getting session from redis :', err);
-
-    return result;
-  });
-
+  const session = await UserSession.findOne({ token });
+  console.log(session,"------------------")
   if (session) {
     console.log('AuthenticateAdmin: session found');
-
-    const userId = JSON.parse(session).userId;
-    const user = await User.findOne({ _id: userId });
-
+    const user = await User.findOne({ _id: session.userId });
     if (user) {
       echo('AuthenticateAdmin: user found');
 

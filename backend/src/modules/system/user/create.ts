@@ -25,36 +25,36 @@ export const createValidator: BaseValidationType = [
 export async function create(req: any, res: any): Promise<void> {
   const { body } = req;
   const hashedPassword = hashPassword(body.password);
-  const userRow = new User();
+  const user = new User();
 
-  userRow.userName = body.userName;
-  userRow.firstName = body.firstName;
-  userRow.lastName = body.lastName;
-  userRow.bio = body.bio;
-  userRow.address = body.address;
-  userRow.city = body.city;
-  userRow.country = body.country;
-  userRow.education = body.education;
-  userRow.work = body.work;
-  userRow.about = body.about;
-  userRow.email = body.email;
-  userRow.password = hashedPassword;
-  userRow.role = 'Admin';
-  userRow.isActive = true;
+  user.userName = body.userName;
+  user.firstName = body.firstName;
+  user.lastName = body.lastName;
+  user.bio = body.bio;
+  user.address = body.address;
+  user.city = body.city;
+  user.country = body.country;
+  user.education = body.education;
+  user.work = body.work;
+  user.about = body.about;
+  user.email = body.email;
+  user.password = hashedPassword;
+  user.role = 'Admin';
+  user.isActive = true;
 
   // Find User By Email
-  if (await isExistByEmail(userRow.email)) {
+  if (await isExistByEmail(user.email)) {
     return res.status(404).json(ValidationError('email', 'This email already registered'));
   }
 
   // Find User By UserName
-  if (await isExistByUsername(userRow.userName)) {
+  if (await isExistByUsername(user.userName)) {
     return res.status(404).json(ValidationError('user name', 'This user name already exist'));
   }
 
   try {
-    await userRow.save();
-    res.json(userRow);
+    await user.save();
+    res.json(user);
   } catch (e) {
     res.status(500).json(ServerError(e.message, 500));
   }

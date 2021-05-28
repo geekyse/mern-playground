@@ -48,7 +48,8 @@ const UserSchema = new Schema({
   sessionId: { type: String },
   failedTriesCount: { type: Number },
   lastFailedLoginAt: { type: Date },
-}, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }, versionKey: false });
+  createdAt: { type: Date, expires: 5000, default: Date.now},
+}, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }, versionKey: false })
 
 UserSchema.methods.unsafeFields = function() {
   return [
@@ -67,6 +68,7 @@ UserSchema.methods.generateSession = async function() {
   Session.token = generateRandomString(20);
   Session.userId = this.id;
 
+  await Session.save()
   try {
 
     // @todo handle set session to redis

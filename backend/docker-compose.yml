@@ -10,9 +10,4 @@ services:
       ENV_NAME: dev
     ports:
       - 7001:7001
-    networks:
-      - ec-proxy-net
 
-networks:
-  ec-proxy-net:
-    name: ec_network

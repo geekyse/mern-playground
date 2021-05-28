@@ -3,11 +3,12 @@ import { Result, ValidationError, validationResult } from 'express-validator';
 
 export async function reqValidationResult(req: Request, res: Response, next: NextFunction): Promise<void> {
   const errors: Result<ValidationError> = validationResult(req);
-  if (errors.isEmpty()) {
-    next();
+  if (!errors.isEmpty()) {
+    next(res.status(400).json({ 'Fields validation error': errors.array() }));
     return;
-  }
 
-  next(res.status(400).json({ 'Fields validation error': errors.array() }));
+  }
+  next();
   return;
+
 }
