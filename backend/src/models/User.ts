@@ -48,8 +48,8 @@ const UserSchema = new Schema({
   sessionId: { type: String },
   failedTriesCount: { type: Number },
   lastFailedLoginAt: { type: Date },
-  createdAt: { type: Date, expires: 5000, default: Date.now},
-}, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }, versionKey: false })
+  createdAt: { type: Date, expires: 5000, default: Date.now },
+}, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }, versionKey: false });
 
 UserSchema.methods.unsafeFields = function() {
   return [
@@ -62,23 +62,30 @@ UserSchema.methods.unsafeFields = function() {
 };
 
 UserSchema.methods.generateSession = async function() {
-  const Session = new UserSession();
+
+  const session = new UserSession();
   // @ts-ignore
-  Session.email = this.email;
-  Session.token = generateRandomString(20);
-  Session.userId = this.id;
+  session.email = this.email;
+  session.token = generateRandomString(20);
+  session.userId = this.id;
 
-  await Session.save()
+  // save session to mongodb
   try {
+    await session.save();
+    console.info(session);
+  } catch (e) {
+    console.log(e, 'error while saving session to mongodb!');
+    return null;
+  }
 
-    // @todo handle set session to redis
-
+  // save session to redis
+  try {
     const redisSessionCacheKey: string = 'admin_session_key';
-    await redisConnection().set(redisSessionCacheKey, JSON.stringify(Session), 'EX', process.env.REDIS_TTL_SPECS_ATTRIBUTES);
+    await redisConnection().set(redisSessionCacheKey + this.id , session, 'EX', process.env.REDIS_TTL_SPECS_ATTRIBUTES);
 
-    return Session;
+    return session;
   } catch (error) {
-    console.log(error, 'error while creating user session !');
+    console.log(error, 'error while saving session to redis!');
     return null;
   }
 };

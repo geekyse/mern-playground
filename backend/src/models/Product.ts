@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 const { Schema } = mongoose;
 
@@ -10,6 +10,7 @@ interface IProduct extends Document {
   vendor: string;
   brand: string;
   category: string;
+  type: string;
   isPublished: boolean;
   price: {
     sellPrice: number,

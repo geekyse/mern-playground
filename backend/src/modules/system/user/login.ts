@@ -13,6 +13,7 @@ export const loginValidator: BaseValidationType = [
 
 export async function login(req: any, res: any): Promise<void> {
   const { body } = req;
+
   let user = await User.findOne({ email: body.email });
   if (!user || !comparePasswords(body.password, user.password)) {
     res.status(400).json(ValidationError('password', 'Wrong email or password'));
@@ -21,10 +22,7 @@ export async function login(req: any, res: any): Promise<void> {
 
   try {
     const session = await user.generateSession();
-    res.json({
-      user: format(user),
-      token: session.token,
-    });
+    res.json({ user: format(user), token: session.token });
 
   } catch (e) {
     console.log(e);

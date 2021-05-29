@@ -11,13 +11,14 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import { sendHttpErrorModule } from './errors/send-http-error';
 import { setupCronJobs } from './server/corn-jobs';
-import { dbConnection } from './server/db';
+import { dbConnection, redisConnection } from './server/db';
 
 export async function app() {
   // initialize configuration
   dotenv.config();
   await dbConnection();
   await setupCronJobs();
+  await redisConnection();
   const app = await createApp();
   initErrorHandler(app);
 }
@@ -49,6 +50,8 @@ export const createApp = async () => {
   app.disable('x-powered-by');
   app.use(sendHttpErrorModule);
   app.use(AuthenticateAdmin);
+
+
   app.use('/', allRoutes);
   app.get('/', (req, res) => res.send('App works fine'));
   app.listen('8080', () => console.log(`App listening at http://localhost:8080`));

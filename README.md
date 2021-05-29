@@ -11,7 +11,7 @@ Nodejs/Typescript Mongo Redis ReactJS/NextJS Docker
 
 ``` 
 - Backend Commands
-    yarn install           : installs all the dependencies defined in a package.json file.
+    yarn install           : install all the dependencies defined in a package.json file.
     yarn dev
     yarn test
     yarn cli create:admin  : Create admin user for dashboard.

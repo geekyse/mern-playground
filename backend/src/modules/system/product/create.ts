@@ -30,6 +30,7 @@ export async function create(req: any, res: any): Promise<void> {
   productRow.description = body.description;
   productRow.vendor = body.vendor;
   productRow.brand = body.brand;
+  productRow.type = body.type;
   productRow.price = body.price;
 
   console.info(productRow);

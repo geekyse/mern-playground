@@ -4,7 +4,7 @@ services:
 
   mongodb:
     image: 'mongo'
-    container_name: 'EC-Mongo'
+    container_name: 'ec-mongodb'
     environment:
       MONGO_INITDB_ROOT_DATABASE: localapp
       MONGO_INITDB_ROOT_USERNAME: root
@@ -15,29 +15,6 @@ services:
     ports:
       - "27117:27017"
     restart: always
-    networks:
-      - ec-proxy
-
-  #  es01:
-  #    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-  #    container_name: 'EC-Elasticsearch'
-  #    environment:
-  #      - node.name=es01
-  #      - cluster.name=es-docker-cluster
-  #      - discovery.seed_hosts=es02,es03
-  #      - cluster.initial_master_nodes=es01
-  #      - bootstrap.memory_lock=true
-  #      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-  #    ulimits:
-  #      memlock:
-  #        soft: -1
-  #        hard: -1
-  #    volumes:
-  #      - data01:/usr/share/elasticsearch/data
-  #    ports:
-  #      - 9200:9200
-  #    networks:
-  #      - ec-proxy
 
   rabbitmq:
     container_name: 'EC-RabbitMQ'
@@ -52,11 +29,28 @@ services:
       - "15672:15672"
       - "5672:5672"
     restart: always
-    networks:
-      - ec-proxy
+
+
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.4
+    container_name: ec-traefik
+
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+
+
 
   redis:
-    container_name: EC-Redis
+    container_name: ec-redis
     image: redis
     volumes:
       - ./data/config/redis/redis.conf:/usr/local/etc/redis/redis.conf
@@ -70,7 +64,3 @@ volumes:
   data01:
     driver: local
 
-networks:
-  ec-proxy:
-    external:
-      name: ec_network

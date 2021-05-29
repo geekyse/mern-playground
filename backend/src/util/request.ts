@@ -4,14 +4,13 @@ import { UserSession } from '../models/UserSession';
 import { User } from '../models/User';
 import { redisConnection } from '../server/db';
 
-
 export const generateFilterCondition = async (filter) => {
   let whereObject = {};
   if (!filter) {
     return whereObject;
   }
 
-  Object.keys(filter).forEach((key:string) => (filter[key] == null) && delete filter[key]);
+  Object.keys(filter).forEach((key: string) => (filter[key] == null) && delete filter[key]);
   Object.keys(filter).map(key => {
     // check for boolean
     if (typeof filter[key] == 'number' || filter[key] == 'true' || filter[key] == 'false') {
@@ -83,38 +82,6 @@ export const getGridParams = async (req) => {
   return { sort, sortBy, page, pageSize };
 };
 
-export const Authenticate = async (req, res, next) => {
-  const token = req.headers['x-user-token'] ?? '';
-  if (!token) {
-    console.log('Authenticate: no x-user-token');
-    return next();
-  } else {
-    console.log(`Authenticate: x-user-token: ${token}`);
-  }
-
-  const session = await UserSession.findOne({ token });
-
-  if (session) {
-    console.log('Authenticate: session found');
-
-    const user = await User.findOne({ _id: session.userId });
-    if (user) {
-      echo('Authenticate: user found');
-      req.userToken = token;
-      // @ts-ignore
-      req.user = await User.format(user);
-      return next();
-    } else {
-      echo(user);
-      echo('Authenticate: user not found');
-    }
-  } else {
-    echo('Authenticate: no valid session found');
-
-  }
-  return next();
-};
-
 export const AuthenticateAdmin = async (req, res, next) => {
   const token = req.headers['x-admin-token'] ?? '';
 
@@ -124,27 +91,33 @@ export const AuthenticateAdmin = async (req, res, next) => {
   } else {
     console.log(`AuthenticateAdmin: x-admin-token: ${token}`);
   }
-
-  const session = await UserSession.findOne({ token });
-  console.log(session,"------------------")
+  // get session from redis first
+  let session = await redisConnection().get('admin_session_key');
   if (session) {
-    console.log('AuthenticateAdmin: session found');
-    const user = await User.findOne({ _id: session.userId });
-    if (user) {
-      echo('AuthenticateAdmin: user found');
+    session = JSON.parse(session);
+    req.adminToken = session.adminToken;
+    // @ts-ignore
+    req.admin = await User.format(user);
+    return next();
 
-      req.adminToken = token;
-      // @ts-ignore
-      req.admin = await User.format(user);
-      return next();
-    } else {
-      echo(user);
-      echo('AuthenticateAdmin: user not found');
-    }
   } else {
-    echo('AuthenticateAdmin: no valid session found');
+
+    // get session from mongodb if no\'t in redis
+    session = await UserSession.findOne({ token });
+    if (session) {
+      const user = await User.findOne({ _id: session.userId });
+      if (user) {
+        req.adminToken = token;
+        // @ts-ignore
+        req.admin = await User.format(user);
+        return next();
+      } else {
+        echo(user);
+      }
+    }
 
   }
+  console.log("Session not found please login.")
   return next();
 };
 
