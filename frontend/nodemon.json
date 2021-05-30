@@ -1,0 +1,5 @@
+{
+  "watch": ["server"],
+  "exec": "next dev -p 3030",
+  "ext": "js"
+}
