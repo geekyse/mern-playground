@@ -1,6 +1,6 @@
 import React from 'react';
 import { axiosInstance, getConfig } from '../util/axios';
-import Profile from './user-profile/profile';
+import Profile from './user/profile';
 import { withAdminAuthSync } from '../util/auth';
 
 function MyProfile(props) {

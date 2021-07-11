@@ -30,24 +30,19 @@ services:
       - "5672:5672"
     restart: always
 
-
-  reverse-proxy:
-    # The official v2 Traefik docker image
-    image: traefik:v2.4
-    container_name: ec-traefik
-
-    # Enables the web UI and tells Traefik to listen to docker
-    command: --api.insecure=true --providers.docker
+  mysql:
+    image: mysql:5.7
+    container_name: ec-mysql
     ports:
-      # The HTTP port
-      - "80:80"
-      # The Web UI (enabled by --api.insecure=true)
-      - "8080:8080"
+      - "3320:3306"
     volumes:
-      # So that Traefik can listen to the Docker events
-      - /var/run/docker.sock:/var/run/docker.sock
-
-
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
 
   redis:
     container_name: ec-redis

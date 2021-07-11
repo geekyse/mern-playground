@@ -1,6 +1,6 @@
 export default function config(
   state = {
-    name: 'D-board',
+    name: 'APP-NAME',
     description: 'Next.js Tailwind CSS admin template',
     url: 'https://d-board-nextjs.mobifica.com',
     layout: 'layout-1',

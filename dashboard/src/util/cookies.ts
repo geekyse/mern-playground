@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import {parseCookies} from "nookies";
 
 export const login = (token) => {
-    Cookies.set('x-admin-token', token, {expires: 1});
+    Cookies.set('x-admin-token', token, {expires: 999});
 };
 
 export const setCartId = (cartId) => {

@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 interface IProduct extends Document {
   title: string;
+  userId: string;
   url: string;
   urlHash: string;
   description: string;
@@ -12,6 +13,11 @@ interface IProduct extends Document {
   category: string;
   type: string;
   isPublished: boolean;
+  swatch: {
+    colors: string[],
+    sizes:string[],
+    styles:string[]
+  }
   price: {
     sellPrice: number,
     costPrice: number,
@@ -26,12 +32,23 @@ const PriceSchema = {
   costPrice: { type: Number, required: false },
 };
 
+const SwatchSchema = {
+  colors: { type: Array, required: true },
+  sizes:  { type: Array, required: false },
+  styles: { type: Array, required: false },
+};
+
 const ProductSchema = new Schema(
   {
     title: {
       type: String,
       required: true,
       text: true,
+      index: true,
+    },
+    userId: {
+      type: String,
+      required: false,
       index: true,
     },
     url: {
@@ -73,6 +90,7 @@ const ProductSchema = new Schema(
       index: true,
     },
     price: PriceSchema,
+    swatch: SwatchSchema,
   }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }, versionKey: false });
 
 

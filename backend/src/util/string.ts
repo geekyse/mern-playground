@@ -45,3 +45,36 @@ export const hashPassword = (password: string) => {
 export const comparePasswords = (password: string, hash: string) => {
   return bcrypt.compareSync(password, hash);
 };
+
+export const extractSwatches = (products: object) => {
+
+  let colorSwatch = [];
+  let sizeSwatch = [];
+  let styleSwatch = [];
+
+  for (let product of products['data']) {
+
+    const { colors, sizes, styles } = product['swatch'];
+
+    for (let color of colors) {
+      colorSwatch[color] ? colorSwatch[color]++ : colorSwatch[color] = 1;
+    }
+
+    for (let size of sizes) {
+      sizeSwatch[size] ? sizeSwatch[size]++ : sizeSwatch[size] = 1;
+    }
+
+    for (let style of styles) {
+      styleSwatch[style] ? styleSwatch[style]++ : styleSwatch[style] = 1;
+    }
+  }
+
+  return { colorSwatch, sizeSwatch, styleSwatch };
+};
+
+export const cleanSwatch = (colors: string,sizes: string,styles: string) => {
+  const color = colors.split(',');
+  const size = sizes.split(',');
+  const style = styles.split(',');
+  return { color,size,style };
+};

@@ -3,6 +3,8 @@ import { HttpError } from '../errors';
 import { UserSession } from '../models/UserSession';
 import { User } from '../models/User';
 import { redisConnection } from '../server/db';
+import { Product } from '../models/Product';
+import { Session } from 'inspector';
 
 export const generateFilterCondition = async (filter) => {
   let whereObject = {};
@@ -23,22 +25,23 @@ export const generateFilterCondition = async (filter) => {
 };
 
 // Return data listed for pagination
-export async function getPageData(req: any, model: any): Promise<object> {
+export async function getPageData(req: any, model: any, filtersss: string): Promise<object> {
   const { sortBy, page, pageSize } = await getGridParams(req);
   const filter = req.query.filter ? req.query.filter : {};
+
   const whereObject = await generateFilterCondition(filter);
 
   try {
-    const total = await model.countDocuments(whereObject);
-
+    const total = await model.countDocuments({ userId : filtersss });
     let skip = (total > pageSize && page != 1) ? (pageSize * (page - 1)) : 0;
     skip = skip < 0 ? 0 : skip;
 
-    const data = await model.find(whereObject)
+    const data = await model.find({ userId : filtersss })
       .sort(sortBy)
       .limit(pageSize)
       .skip(skip)
       .exec();
+
 
     // data.map(function (item) {
     //     // @ts-ignore
@@ -117,7 +120,7 @@ export const AuthenticateAdmin = async (req, res, next) => {
     }
 
   }
-  console.log("Session not found please login.")
+  console.log('Session not found please login.');
   return next();
 };
 
@@ -168,4 +171,10 @@ export const ServerError = (error: string = '', status = 500) => {
     'message': error,
     // 'errors': [],
   };
+};
+
+export const getUserByToken = async (adminToken: string) => {
+  // @todo maintain not fount user session
+  const session = await UserSession.findOne({ token: adminToken });
+  return session['userId'];
 };

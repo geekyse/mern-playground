@@ -6,38 +6,10 @@ let mongoConn = null;
 let redisConn = null;
 
 export const dbConnection = async () => {
-  await mongoConnection();
   await redisConnection();
+  await mongoConnection();
 };
 
-export const mongoConnection = async () => {
-  // singleton design pattern
-  if (mongoConn) return mongoConn;
-
-  mongoose.plugin(slug);
-  // @ts-ignore
-  mongoConn = await mongoose.connect(process.env.DB_CONNECTION_LOCAL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-    connectTimeoutMS: 50,
-  });
-
-  mongoose.set('toJSON', {
-    virtuals: true,
-    transform: (doc, converted) => {
-      converted.id = converted._id;
-      // delete converted._id;
-    },
-  });
-  const db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'Connection error: MongoDb :('));
-  db.once('open', () => {
-    console.log('we\'re connected!');
-  });
-  return mongoConn;
-};
 
 export const redisConnection = () => {
   // singleton design pattern
@@ -71,4 +43,33 @@ export const redisConnection = () => {
   });
   redisConn = redis;
   return redisConn;
+};
+
+export const mongoConnection = async () => {
+  // singleton design pattern
+  if (mongoConn) return mongoConn;
+
+  mongoose.plugin(slug);
+  // @ts-ignore
+  mongoConn = await mongoose.connect(process.env.DB_CONNECTION_LOCAL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+    connectTimeoutMS: 50,
+  });
+
+  mongoose.set('toJSON', {
+    virtuals: true,
+    transform: (doc, converted) => {
+      converted.id = converted._id;
+      // delete converted._id;
+    },
+  });
+  const db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'Connection error: MongoDb :('));
+  db.once('open', () => {
+    console.log('we\'re connected!');
+  });
+  return mongoConn;
 };

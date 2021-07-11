@@ -21,7 +21,7 @@ const Layout1 = ({children}) => {
   return (
     <>
       <Head>
-        <title>Kaykroo</title>
+        <title>APP-NAME</title>
       </Head>
       <div
         data-layout={layout}

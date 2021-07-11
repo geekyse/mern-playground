@@ -48,7 +48,6 @@ const UserSchema = new Schema({
   sessionId: { type: String },
   failedTriesCount: { type: Number },
   lastFailedLoginAt: { type: Date },
-  createdAt: { type: Date, expires: 5000, default: Date.now },
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }, versionKey: false });
 
 UserSchema.methods.unsafeFields = function() {
@@ -81,7 +80,7 @@ UserSchema.methods.generateSession = async function() {
   // save session to redis
   try {
     const redisSessionCacheKey: string = 'admin_session_key';
-    await redisConnection().set(redisSessionCacheKey + this.id , session, 'EX', process.env.REDIS_TTL_SPECS_ATTRIBUTES);
+    await redisConnection().set(redisSessionCacheKey + this.id, session, 'EX', 1);
 
     return session;
   } catch (error) {
