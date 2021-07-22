@@ -3,8 +3,6 @@ import { HttpError } from '../errors';
 import { UserSession } from '../models/UserSession';
 import { User } from '../models/User';
 import { redisConnection } from '../server/db';
-import { Product } from '../models/Product';
-import { Session } from 'inspector';
 
 export const generateFilterCondition = async (filter) => {
   let whereObject = {};
@@ -112,7 +110,10 @@ export const AuthenticateAdmin = async (req, res, next) => {
       if (user) {
         req.adminToken = token;
         // @ts-ignore
-        req.admin = await User.format(user);
+
+
+        req.admin = await User['User'].format(user);
+
         return next();
       } else {
         echo(user);

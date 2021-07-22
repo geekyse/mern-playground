@@ -7,7 +7,7 @@ export const deleteValidator: BaseValidationType = [
   param('id').notEmpty().isString(), reqValidationResult];
 
 export async function deleteRow(req: any, res: any): Promise<void> {
-  await User.deleteOne({ _id: req.params.id });
+  await User.destroy({ _id: req.params.id });
   res.json({});
 }
 

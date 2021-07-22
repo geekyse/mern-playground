@@ -1,13 +1,13 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Backend/Node.js CI
+name: Deploy Master
 
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags:
+      - master-*
 
 jobs:
   build:
@@ -29,6 +29,38 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Build and push docker images
+      - uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME}}
+          password: ${{ secrets.DOCKERHUB_PASSWORD}}
+          repositroy:
+          tag_with_ref: true
+          tag_with_sha: true
+
+
+
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout files
+      - uses: actions/checkout@v2
+
+      - name: Get tag name
+      - uses: olegtrasov/get-tag@v2
+
+      - name: Get tag name
+      - uses: digitalocean/action-doctl@v2
+      - with:
+          token : ${{secrets.DIGITALOCEAN_ACCESS_TOKEN}}
+
+
+      - name: Provision Droplet and deploy container
+      - run: doctl compute droplet create "$GIT_TAG_NAME" --image docker-18-04 --size -s1vcpu-1gb --region nyc1 --user-data-file deploy.sh --wait

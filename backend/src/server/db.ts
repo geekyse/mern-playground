@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 import slug from 'mongoose-slug-updater';
 import Redis, { RedisOptions } from 'ioredis';
+const { Sequelize } = require('sequelize');
 
 let mongoConn = null;
 let redisConn = null;
+let mysqlConn = null;
 
 export const dbConnection = async () => {
   await redisConnection();
   await mongoConnection();
+  await mysqlConnection();
 };
 
 
@@ -73,3 +76,28 @@ export const mongoConnection = async () => {
   });
   return mongoConn;
 };
+
+export const mysqlConnection = () => {
+  // singleton design pattern
+  if (mysqlConn) return mysqlConn;
+
+  mysqlConn = new Sequelize('app', 'root', 'root', {
+    host: 'localhost',
+    port: 3320,
+    dialect: 'mysql',
+  });
+
+
+  mysqlConn
+    .authenticate()
+    .then(() => {
+      console.log('MYSQL : Connection has been established successfully.');
+    })
+    .catch(err => {
+      console.error('MYSQL : Unable to connect to the database:', err);
+    });
+
+  return mysqlConn;
+};
+
+

@@ -11,7 +11,7 @@ import compression from 'compression';
 import bodyParser, { json } from 'body-parser';
 import { sendHttpErrorModule } from './errors/send-http-error';
 import { setupCronJobs } from './server/corn-jobs';
-import { dbConnection } from './server/db';
+import { dbConnection, mysqlConnection } from './server/db';
 
 export async function app() {
   // initialize configuration
@@ -49,6 +49,9 @@ export const createApp = async () => {
   app.disable('x-powered-by');
   app.use(sendHttpErrorModule);
   app.use(AuthenticateAdmin);
+
+  // Create mysql tables if not EXISTS
+  mysqlConnection().sync()
   app.use('/', allRoutes);
   app.get('/', (req, res) => res.send('App works fine'));
   app.listen('8080', () => console.log(`App listening at http://localhost:8080`));

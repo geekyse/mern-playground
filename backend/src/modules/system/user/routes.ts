@@ -21,7 +21,6 @@ routes.get('/', isAuthorizedAdmin, listValidator, catchAsyncErrors(list));
 routes.get('/:id', isAuthorizedAdmin, getValidator, catchAsyncErrors(get));
 routes.put('/:id', isAuthorizedAdmin, updateValidator, catchAsyncErrors(update));
 routes.post('/upload', isAuthorizedAdmin,upload.any('avatar'), catchAsyncErrors(uploadAvatar));
-
 routes.delete('/:id', isAuthorizedAdmin, deleteValidator, catchAsyncErrors(deleteRow));
 
 export { routes as userRoutes };

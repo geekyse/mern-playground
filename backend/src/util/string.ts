@@ -72,9 +72,9 @@ export const extractSwatches = (products: object) => {
   return { colorSwatch, sizeSwatch, styleSwatch };
 };
 
-export const cleanSwatch = (colors: string,sizes: string,styles: string) => {
+export const cleanSwatch = (colors: string, sizes: string, styles: string) => {
   const color = colors.split(',');
   const size = sizes.split(',');
   const style = styles.split(',');
-  return { color,size,style };
+  return { color, size, style };
 };

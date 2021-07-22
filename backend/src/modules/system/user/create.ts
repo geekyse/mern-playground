@@ -25,22 +25,21 @@ export const createValidator: BaseValidationType = [
 export async function create(req: any, res: any): Promise<void> {
   const { body } = req;
   const hashedPassword = hashPassword(body.password);
-  const user = new User();
-
-  user.userName = body.userName;
-  user.firstName = body.firstName;
-  user.lastName = body.lastName;
-  user.bio = body.bio;
-  user.address = body.address;
-  user.city = body.city;
-  user.country = body.country;
-  user.education = body.education;
-  user.work = body.work;
-  user.about = body.about;
-  user.email = body.email;
-  user.password = hashedPassword;
-  user.role = 'Admin';
-  user.isActive = true;
+  const user = {
+    userName : body.userName,
+    firstName : body.firstName,
+    lastName : body.lastName,
+    bio: body.bio,
+    address : body.address,
+    city : body.city,
+    country : body.country,
+    education : body.education,
+    work : body.work,
+    about : body.about,
+    email : body.email,
+    password : hashedPassword,
+    role : 'Admin',
+  };
 
   // Find User By Email
   if (await isExistByEmail(user.email)) {
@@ -48,12 +47,13 @@ export async function create(req: any, res: any): Promise<void> {
   }
 
   // Find User By UserName
-  if (await isExistByUsername(user.userName)) {
+  if ( await isExistByUsername(user.userName)) {
     return res.status(404).json(ValidationError('user name', 'This user name already exist'));
   }
 
+
   try {
-    await user.save();
+    await User.create(user);
     res.json(user);
   } catch (e) {
     res.status(500).json(ServerError(e.message, 500));

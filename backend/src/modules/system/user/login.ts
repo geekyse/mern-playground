@@ -19,7 +19,7 @@ export async function login(req: any, res: any): Promise<void> {
     res.status(400).json(ValidationError('password', 'Wrong email or password'));
     return;
   }
-
+  console.log("----------------")
   try {
     const session = await user.generateSession();
     res.json({ user: format(user), token: session.token });
