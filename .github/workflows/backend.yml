@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Build and push docker images
-      - uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME}}
           password: ${{ secrets.DOCKERHUB_PASSWORD}}
@@ -42,16 +42,16 @@ jobs:
 
     steps:
       - name: Checkout files
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Get tag name
-      - uses: olegtrasov/get-tag@v2
+        uses: olegtrasov/get-tag@v2
 
       - name: Get tag name
-      - uses: digitalocean/action-doctl@v2
-      - with:
+        uses: digitalocean/action-doctl@v2
+        with:
           token : ${{secrets.DIGITALOCEAN_ACCESS_TOKEN}}
 
 
       - name: Provision Droplet and deploy container
-      - run: doctl compute droplet create "$GIT_TAG_NAME" --image docker-18-04 --size -s1vcpu-1gb --region nyc1 --user-data-file deploy.sh --wait
+        run: doctl compute droplet create "$GIT_TAG_NAME" --image docker-18-04 --size -s1vcpu-1gb --region nyc1 --user-data-file deploy.sh --wait
