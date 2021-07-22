@@ -24,7 +24,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME}}
           password: ${{ secrets.DOCKERHUB_PASSWORD}}
-          repositroy:
+          repository: AbdullahMoawad/Typescript-App
           tag_with_ref: true
           tag_with_sha: true
       - run: npm ci
