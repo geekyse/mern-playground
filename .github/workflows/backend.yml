@@ -18,11 +18,6 @@ jobs:
         shell: bash
         working-directory: backend
 
-    strategy:
-      matrix:
-        node-version: [ 10.x, 12.x, 14.x ]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - name: Build and push docker images
         uses: docker/build-push-action@v1
