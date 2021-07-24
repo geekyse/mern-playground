@@ -48,6 +48,8 @@ jobs:
       - name: Push Image
         working-directory: ${{env.working_directory}}
         run: |
+          docker login --username effinbzz -p ${docker_password}
+          
           docker tag back effinbzz/backend:prod-$GH_SHA_SHORT
           docker push effinbzz/backend:prod-$GH_SHA_SHORT
 
