@@ -48,7 +48,7 @@ jobs:
       - name: Push Image
         working-directory: ${{env.working_directory}}
         run: |
-          docker tag backend abdullahmoawad/typescript-app:prod-$GH_SHA_SHORT
+          docker tag backend effinbzz/typescript-app:prod-$GH_SHA_SHORT
           docker push abdullahmoawad/typescript-app:prod-$GH_SHA_SHORT
 
           docker tag backend abdullahmoawad/typescript-app:latest-prod

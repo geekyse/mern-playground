@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "main": "dist/index.js",
   "scripts": {
     "cli": "ts-node src/cli.ts",
     "start": "node dist/index.js",

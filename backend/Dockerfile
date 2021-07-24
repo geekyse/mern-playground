@@ -7,8 +7,8 @@ WORKDIR /app
 COPY . .
 
 
-
 RUN yarn install
+RUN yarn run build
 
 # Running the app
 CMD [ "yarn", "start" ]
