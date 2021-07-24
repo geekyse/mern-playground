@@ -7,9 +7,6 @@ WORKDIR /app
 COPY . .
 
 
-# Building app
-RUN rm .env
-RUN mv .env.prod .env
 
 RUN yarn install
 RUN yarn run build
