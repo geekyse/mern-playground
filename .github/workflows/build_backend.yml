@@ -43,7 +43,7 @@ jobs:
         working-directory: ${{env.working_directory}}
         run: |
           docker login --username effinbzz -p ${docker_password}
-          docker build -t api -f Dockerfile .
+          docker build -t backend -f Dockerfile .
 
       - name: Push Image
         working-directory: ${{env.working_directory}}
