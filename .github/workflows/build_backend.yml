@@ -40,8 +40,9 @@ jobs:
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
-        with: 
+        with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Provision Droplet and deploy container
-        run: doctl compute droplet create "$GIT_TAG_NAME" --image docker-18-04 --size s-1vcpu-1gb --region blr1  backend --wait
+        run: doctl compute droplet create --image ubuntu-20-04-x64 --size s-1vcpu-1gb --region blr backend
+
