@@ -35,6 +35,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v2
         with:
+          context: backend/.
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: AbdullahMoawad/Typescript-App
