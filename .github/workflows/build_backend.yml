@@ -48,11 +48,11 @@ jobs:
       - name: Push Image
         working-directory: ${{env.working_directory}}
         run: |
-          docker tag backend:my effinbzz/backend:my
-          docker push effinbzz/backend:my
+          docker tag effinbzz/dockerhub:my
+          docker push effinbzz/dockerhub:my
 
-          docker tag backend:my effinbzz/backend:my
-          docker push effinbzz/backend:my
+          docker tag effinbzz/dockerhub:my
+          docker push effinbzz/dockerhub:my
 
 
 
