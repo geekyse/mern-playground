@@ -42,7 +42,7 @@ jobs:
       - name: Build Image
         working-directory: ${{env.working_directory}}
         run: |
-          docker login --username ${secrets.DOCKERHUB_USERNAME} -p ${docker_password}
+          docker login --username abdullahmoawad -p ${docker_password}
           docker build -t api -f Dockerfile .
 
       - name: Push Image
