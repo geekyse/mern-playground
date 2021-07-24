@@ -26,6 +26,9 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
+      - name: Get tag name
+        uses: olegtarasov/get-tag@v2
+
       - name: General
         run: |
           # comment
@@ -42,10 +45,12 @@ jobs:
           tag_with_ref: true
           tag_with_sha: true
 
+
+
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Provision Droplet and deploy container
-        run: doctl compute droplet create --image ubuntu-20-04-x64 --size s-1vcpu-1gb --region blr1 backend
+        run: doctl compute droplet create "$GIT_TAG_NAME" --image docker-18-04 --size s-1vcpu-1gb --region blr1 --user-data-file deploy.sh --wait
