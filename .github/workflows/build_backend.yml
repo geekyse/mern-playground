@@ -42,13 +42,13 @@ jobs:
       - name: Build Image
         working-directory: ${{env.working_directory}}
         run: |
-          docker login --username abdullahmoawad -p ${docker_password}
+          docker login --username effinbzz -p ${docker_password}
           docker build -t api -f Dockerfile .
 
       - name: Push Image
         working-directory: ${{env.working_directory}}
-        run: | 
-          docker tag backend effinbzz/typescript-app:prod-$GH_SHA_SHORT
+        run: |
+          docker tag backend abdullahmoawad/typescript-app:prod-$GH_SHA_SHORT
           docker push abdullahmoawad/typescript-app:prod-$GH_SHA_SHORT
 
           docker tag backend abdullahmoawad/typescript-app:latest-prod
