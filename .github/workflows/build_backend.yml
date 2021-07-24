@@ -38,15 +38,6 @@ jobs:
           docker login --username abdullahmoawad -p ${docker_password}
           docker build -t api -f Dockerfile .
 
-      - name: Push Image
-        working-directory: ${{env.working_directory}}
-        run: |
-          docker tag backend AbdullahMoawad/Typescript-App:prod-$GH_SHA_SHORT
-          docker push AbdullahMoawad/Typescript-App:prod-$GH_SHA_SHORT
-
-          docker tag backend AbdullahMoawad/Typescript-App:latest-prod
-          docker push AbdullahMoawad/Typescript-App:latest-prod
-
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
