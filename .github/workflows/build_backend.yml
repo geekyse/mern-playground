@@ -38,13 +38,13 @@ jobs:
       - name: Build Image
         working-directory: ${{env.working_directory}}
         run: |
-          docker logout
           docker login --username effinbzz -p ${docker_password}
           docker build -t backend -f Dockerfile .
 
       - name: Push Image
         working-directory: ${{env.working_directory}}
         run: |
+          docker login --username effinbzz -p ${docker_password} docker.io
           docker tag backend effinbzz/backend:prod-$GH_SHA_SHORT
           docker push effinbzz/backend:prod-$GH_SHA_SHORT
 
