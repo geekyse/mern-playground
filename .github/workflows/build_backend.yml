@@ -35,24 +35,20 @@ jobs:
           GIT_BRANCH=${{ github.ref }}
           echo ::set-env name=GH_SHA_SHORT::$(echo $GITHUB_SHA | cut -c 1-7)
 
-
-
-
-
       - name: Build Image
         working-directory: ${{env.working_directory}}
         run: |
           docker logout
           docker login --username effinbzz -p ${docker_password}
-          docker build -t back -f Dockerfile .
+          docker build -t backend -f Dockerfile .
 
       - name: Push Image
         working-directory: ${{env.working_directory}}
         run: |
-          docker tag back effinbzz/backend:prod-$GH_SHA_SHORT
+          docker tag backend effinbzz/backend:prod-$GH_SHA_SHORT
           docker push effinbzz/backend:prod-$GH_SHA_SHORT
 
-          docker tag back effinbzz/backend:latest-prod
+          docker tag backend effinbzz/backend:latest-prod
           docker push effinbzz/backend:latest-prod
 
 
