@@ -48,20 +48,6 @@ jobs:
           docker tag backend effinbzz/backend:latest-prod
           docker push effinbzz/backend:latest-prod
 
-
-
-#      - name: Build and push Docker images
-#        uses: docker/build-push-action@v2
-#        with:
-#          context: backend/.
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-#          repository: AbdullahMoawad/Typescript-App
-#          tag_with_ref: true
-#          tag_with_sha: true
-
-
-
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
