@@ -31,7 +31,7 @@ jobs:
 
       - name: General
         run: |
-          run : echo "$GIT_TAG_NAME"
+          echo "$GIT_TAG_NAME"
           # comment
           GIT_BRANCH=${{ github.ref }}
           echo ::set-env name=GH_SHA_SHORT::$(echo $GITHUB_SHA | cut -c 1-7)
