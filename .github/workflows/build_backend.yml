@@ -26,12 +26,8 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v2
 
-      - name: Get tag name
-        uses: olegtarasov/get-tag@v2
-
       - name: General
         run: |
-          echo "$GIT_TAG_NAME"
           # comment
           GIT_BRANCH=${{ github.ref }}
           echo ::set-env name=GH_SHA_SHORT::$(echo $GITHUB_SHA | cut -c 1-7)
@@ -72,5 +68,5 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Provision Droplet and deploy container
-        run: doctl compute droplet create "$GIT_TAG_NAME" --image docker-18-04 --size s-1vcpu-1gb --region blr1 --user-data-file deploy.sh --wait --enable-ipv6 --enable-monitoring --enable-private-networking
+        run: doctl compute droplet create backendd --image docker-18-04 --size s-1vcpu-1gb --region blr1 --user-data-file deploy.sh --wait --enable-ipv6 --enable-monitoring --enable-private-networking
 
