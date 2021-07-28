@@ -28,6 +28,7 @@ jobs:
 
       - name: Get tag name
         uses: olegtarasov/get-tag@v2
+        run : echo "$GIT_TAG_NAME"
 
       - name: General
         run: |
