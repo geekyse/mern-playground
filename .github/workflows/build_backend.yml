@@ -21,17 +21,10 @@ jobs:
   build:
     name: build backend
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ '12', '14', '16' ]
+    #    needs: [lint_config]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
-      - run: yarn install
-      - run: yarn test
+      - name: Check out source code
+        uses: actions/checkout@v2
 
       - name: General
         run: |
@@ -54,3 +47,20 @@ jobs:
 
           docker tag backend effinbzz/backend:latest-prod
           docker push effinbzz/backend:latest-prod
+
+#      - name: Install doctl
+#        uses: digitalocean/action-doctl@v2
+#        with:
+#          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+#
+#      - name: Provision Droplet and deploy container
+#        run: doctl compute droplet create backendd --image docker-18-04 --size s-1vcpu-1gb --region blr1 --user-data-file deploy.sh --wait --enable-ipv6 --enable-monitoring --enable-private-networking
+
+      - name: Executing remote  command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: cat /opt/app/README.md
