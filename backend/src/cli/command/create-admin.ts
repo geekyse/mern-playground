@@ -3,10 +3,10 @@ import { User } from '../../models/User';
 const createAdmin = async () => {
 
   const user = {
-    userName: 'effinbzz',
-    firstName: 'Abdullah',
-    lastName: 'Moawad',
-    email: 'effinbzz@gmail.com',
+    userName: 'username',
+    firstName: 'test',
+    lastName: 'test',
+    email: 'test@test.com',
     password: '123123123',
     role: 'admin',
   };
