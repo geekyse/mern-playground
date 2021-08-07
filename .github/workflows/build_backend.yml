@@ -1,12 +1,8 @@
 name: build_backend
 env:
-  github_token: ${{ secrets.ghub_token }}
   docker_password: ${{ secrets.DOCKERHUB_PASSWORD }}
-  basion_host: ${{ secrets.basion_host }}
-  basion_user: ${{ secrets.basion_user }}
+  server_password: ${{ secrets.SERVER_PASSWORD }}
   working_directory: ./backend
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  basion_user_private_key: ${{ secrets.basion_user_private_key}}
   CI: true
 
 on:
@@ -19,12 +15,19 @@ on:
 jobs:
 
   build:
-    name: build backend
     runs-on: ubuntu-latest
-    #    needs: [lint_config]
+    strategy:
+      matrix:
+        node: [ '12', '14', '16' ]
+    name: Node ${{ matrix.node }} sample
     steps:
-      - name: Check out source code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - run: cd ${{env.working_directory}} && yarn install
+      - run: cd ${{env.working_directory}} && yarn test
 
       - name: General
         run: |
@@ -32,35 +35,36 @@ jobs:
           GIT_BRANCH=${{ github.ref }}
           echo ::set-env name=GH_SHA_SHORT::$(echo $GITHUB_SHA | cut -c 1-7)
 
-      - name: Build Image
-        working-directory: ${{env.working_directory}}
-        run: |
-          docker login --username effinbzz -p ${docker_password}
-          docker build -t backend -f Dockerfile .
+      #      - name: Build Image
+      #        working-directory: ${{env.working_directory}}
+      #        run: |
+      #          docker login --username effinbzz -p ${docker_password}
+      #          docker build -t backend -f Dockerfile .
 
-      - name: Push Image
-        working-directory: ${{env.working_directory}}
-        run: |
-          docker login --username effinbzz -p ${docker_password} docker.io
-          docker tag backend effinbzz/backend:prod-$GH_SHA_SHORT
-          docker push effinbzz/backend:prod-$GH_SHA_SHORT
+      #      - name: Push Image
+      #        working-directory: ${{env.working_directory}}
+      #        run: |
+      #          docker login --username effinbzz -p ${docker_password} docker.io
+      #          docker tag backend effinbzz/backend:prod-$GH_SHA_SHORT
+      #          docker push effinbzz/backend:prod-$GH_SHA_SHORT
+      #
+      #          docker tag backend effinbzz/backend:latest-prod
+      #          docker push effinbzz/backend:latest-prod
 
-          docker tag backend effinbzz/backend:latest-prod
-          docker push effinbzz/backend:latest-prod
-
-#      - name: Install doctl
-#        uses: digitalocean/action-doctl@v2
-#        with:
-#          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-#
-#      - name: Provision Droplet and deploy container
-#        run: doctl compute droplet create backendd --image docker-18-04 --size s-1vcpu-1gb --region blr1 --user-data-file deploy.sh --wait --enable-ipv6 --enable-monitoring --enable-private-networking
+      #      - name: Install doctl
+      #        uses: digitalocean/action-doctl@v2
+      #        with:
+      #          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      #
+      #      - name: Provision Droplet and deploy container
+      #        run: doctl compute droplet create backendd --image docker-18-04 --size s-1vcpu-1gb --region blr1 --user-data-file deploy.sh --wait --enable-ipv6 --enable-monitoring --enable-private-networking
 
       - name: Executing remote  command
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.SSHKEY }}
-          script: cat /opt/app/README.md
+          host: host
+          username: username
+          key: ssh key
+          script: |
+            cd ~/app && docker login --username username -p password docker.io && git clone git@github.com:AbdullahMoawad/mern-playground.git
+
