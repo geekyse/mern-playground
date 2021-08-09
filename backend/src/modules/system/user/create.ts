@@ -5,6 +5,7 @@ import { reqValidationResult } from '../../../types/req-validation-result';
 import { ServerError, ValidationError } from '../../../util/request';
 import { hashPassword } from '../../../util/string';
 import { isExistByEmail, isExistByUsername } from '../../../models/UserHelpers';
+import { sendRegisterEmail } from 'src/util/mail';
 
 export const createValidator: BaseValidationType = [
   body('userName').notEmpty().isString().trim().escape(),
@@ -54,6 +55,8 @@ export async function create(req: any, res: any): Promise<void> {
 
   try {
     await User.create(user);
+    // @todo add user id
+    sendRegisterEmail(user.email, user.firstName, user.id, user.emailVerificationCode);
     res.json(user);
   } catch (e) {
     res.status(500).json(ServerError(e.message, 500));
