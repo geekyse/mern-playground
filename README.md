@@ -1,7 +1,5 @@
-![alt text](https://miro.medium.com/max/680/1*gPQDzHAT_df9y6491dhxag.png)
-
 <p align="center">
-     🎉 Start of an App 🎉
+     🎉 MERN STACK PLAYGROUND 🎉
 </p>
 <p align="center">
 Tech stack : 
